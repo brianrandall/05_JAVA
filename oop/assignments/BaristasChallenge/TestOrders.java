@@ -17,18 +17,27 @@ public class TestOrders {
         
 
         order1.addItem(item1);
-        order1.addItem(item4);
+        order1.addItem(item2);
+
+        order2.addItem(item3);
+        order2.addItem(item4);
+
+        order3.addItem(item1);
+        order3.addItem(item2);
+        
+        order4.addItem(item3);
+        order4.addItem(item4);
+
+        order5.addItem(item1);
+        order5.addItem(item2);
 
         System.out.println(order1.getStatusMessage());
 
-        order1.setReady(true);
-        System.out.println(order1.getStatusMessage());
+        order2.setReady(true);
+        System.out.println(order2.getStatusMessage());
 
         System.out.println(order1.getTotal());
 
-        order3.addItem(item1);
-        order3.addItem(item4);
-        order3.addItem(item2);
         order3.display();
 
 
