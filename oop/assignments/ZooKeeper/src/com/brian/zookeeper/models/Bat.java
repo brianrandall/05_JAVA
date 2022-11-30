@@ -2,8 +2,10 @@ package com.brian.zookeeper.models;
 
 public class Bat extends Mammal {
 
-    public Bat() {
-        this.setEnergyLevel(300);
+    public Bat() {}
+
+    public Bat(int energyLevel) {
+        super.setEnergyLevel(energyLevel);
     }
 
     public void fly() {

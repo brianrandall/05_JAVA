@@ -4,7 +4,7 @@ import com.brian.zookeeper.models.Bat;
 public class BatTest {
     public static void main(String[] args) {
         
-        Bat batMan = new Bat();
+        Bat batMan = new Bat(300);
 
         batMan.attackTown();
         batMan.attackTown();

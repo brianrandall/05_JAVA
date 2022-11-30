@@ -1,6 +1,9 @@
 package com.brian.zookeeper.models;
 
 public class Gorilla extends Mammal {
+   
+    public Gorilla() {}
+
     public void throwSomething() {
         System.out.println("gorilla mad. gorilla throw.");
         this.setEnergyLevel(this.getEnergyLevel() - 5);
