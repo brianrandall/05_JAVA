@@ -1,4 +1,4 @@
-package models;
+package com.brian.zookeeper.models;
 
 public class Gorilla extends Mammal {
     public void throwSomething() {

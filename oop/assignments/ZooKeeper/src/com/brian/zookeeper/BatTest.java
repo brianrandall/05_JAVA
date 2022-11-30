@@ -1,4 +1,5 @@
-import models.Bat;
+package com.brian.zookeeper;
+import com.brian.zookeeper.models.Bat;
 
 public class BatTest {
     public static void main(String[] args) {
