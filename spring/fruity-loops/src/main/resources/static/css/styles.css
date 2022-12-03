@@ -1,0 +1,35 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+h1 {
+    color: salmon;
+}
+
+.tableDiv {
+    background-color: salmon;
+    padding: 15px;
+    width: fit-content;
+}
+
+.table {
+    width: 400px;
+    background-color: white;
+}
+
+.table thead {
+    text-align: left;
+    border-color: inherit;
+}
+
+.table thead th {
+    vertical-align: center;
+    border-bottom: 1px solid;
+    padding: 5px;
+}
+
+.table td {
+    border-bottom: 1px solid;
+    padding: 5px;
+}
