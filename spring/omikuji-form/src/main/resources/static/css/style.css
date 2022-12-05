@@ -1,0 +1,36 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    margin-top: 10px;
+}
+
+.formContainer {
+    margin-top: 15px;
+    padding: 10px;
+    border: 2px solid black;
+    width: 320px;
+}
+
+.formContainer p {
+    margin-top: 5px;
+}
+
+.formFooter {
+    margin-top: 10px;
+}
+
+.form-result {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 2px solid black;
+    width: 320px;
+    background-color: rgb(127, 221, 255);
+}
