@@ -42,5 +42,4 @@ public class RouteController {
         @PathVariable("color") String color) {
         return "You have a " + color + " pet named " + name;
     }
-
 }
