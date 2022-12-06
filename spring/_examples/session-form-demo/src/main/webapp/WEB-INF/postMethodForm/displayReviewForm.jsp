@@ -14,6 +14,10 @@
         form results
     </h1>
     <h2>
+        User ID:
+    </h2>
+    <c:out value="${uuidFromSession}"/>
+    <h2>
         movie:
     </h2>
     <c:out value="${movieFromSession}"/>

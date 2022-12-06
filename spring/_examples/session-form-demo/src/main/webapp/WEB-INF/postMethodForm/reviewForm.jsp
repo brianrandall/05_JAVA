@@ -14,17 +14,27 @@
         Review Form
     </h1>
     <form action="/form/process" method="post">
+        <input type="hidden" name="uuid" value="12">
         <div>
             <label for="name">Movie:</label>
             <input type="text" name="movie">
+            <span style="font-style: oblique; font-size: small; color: crimson">
+                <c:out value="${movieError}"/>
+            </span>
         </div>
         <div>
             <label for="name">Comment:</label>
             <input type="text" name="comment">
+            <span style="font-style: oblique; font-size: small; color: crimson">
+                <c:out value="${commentError}"/>
+            </span>
         </div>
         <div>
             <label for="name">Rating:</label>
             <input type="text" name="rating">
+            <span style="font-style: oblique; font-size: small; color: crimson">
+                <c:out value="${ratingError}"/>
+            </span>
         </div>
         <input type="submit" value="Submit">
 

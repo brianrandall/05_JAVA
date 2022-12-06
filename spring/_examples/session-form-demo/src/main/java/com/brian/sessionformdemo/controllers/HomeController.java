@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class HomeController {
@@ -48,10 +49,28 @@ public class HomeController {
         @RequestParam("movie") String movie,
         @RequestParam("comment") String comment,
         @RequestParam("rating") int rating,
-        HttpSession session ) {
+        @RequestParam("uuid") String uuid,
+        HttpSession session, RedirectAttributes redirectAttributes ) {
+            boolean isValid = true;
+            if (rating < 1 || rating > 5) {
+                isValid = false;
+                redirectAttributes.addFlashAttribute("ratingError", "Rating must be between 1 and 5");
+            }
+            if (movie.length() < 2) {
+                isValid = false;
+                redirectAttributes.addFlashAttribute("movieError", "Movie title must be at least 1 character");
+            }
+            if (comment.length() < 2) {
+                isValid = false;
+                redirectAttributes.addFlashAttribute("commentError", "Comment must be at least 1 character");
+            }
+            if (isValid == false) {
+                return "redirect:/review/form";
+            }
             session.setAttribute("movieFromSession", movie);
             session.setAttribute("commentFromSession", comment);
             session.setAttribute("ratingFromSession", rating);
+            session.setAttribute("uuidFromSession", uuid);
             return "redirect:/review/results";
     }
 
