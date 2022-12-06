@@ -49,6 +49,5 @@ public class HomeController {
         return "redirect:/your_server/counter";
     }
 
-
-
+    
 }
