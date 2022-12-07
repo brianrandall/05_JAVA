@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
 
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page isErrorPage="true" %> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +26,9 @@
                 <th>
                     Quantity
                 </th>
+                <th>
+                    Delete
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -37,9 +43,18 @@
                     <td>
                         ${donation.quantity}
                     </td>
+                    <td>
+                        <form action="/donations/${donation.id}" method="post">
+                            <input type="hidden" name="_method" value="delete">
+                            <input type="submit" value="Delete ${donation.donorName}'s ${donation.donationName}">
+                        </form>
                 </tr>
             </c:forEach>
     </table>
+    <form action="/donations/search" method="get">
+        <input type="text" name="searchTerm">
+        <input type="submit" value="Search">
+    </form>
     
 </body>
 </html>

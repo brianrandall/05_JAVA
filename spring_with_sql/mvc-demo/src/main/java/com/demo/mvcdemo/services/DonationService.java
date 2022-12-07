@@ -25,6 +25,11 @@ public class DonationService {
         return donationRepository.findAll();
     }
 
+    //search for donations containing a string
+    public List<Donation> searchDonations(String search) {
+        return donationRepository.findByDonationNameContaining(search);
+    }
+
     //get one donation
     public Donation findOneDonation(Long id) {
         return donationRepository.findById(id).orElse(null);
@@ -39,8 +44,13 @@ public class DonationService {
         return donationRepository.save(donation);
     }
 
+    public Donation update(Donation donation) {
+        return donationRepository.save(donation);
+    }
+
     //delete a donation
     public void delete(Long id) {
         donationRepository.deleteById(id);
     }
+
 }
