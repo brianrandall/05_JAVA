@@ -1,0 +1,31 @@
+#header {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+table, th, td{
+    margin-top: 20px;
+    border: 1px solid black;
+    padding: 5px;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.iHateTables {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.error {
+    color: red;
+    font-style: oblique;
+    font-size: small;
+}
+
+#top-ten {
+    border: 1px solid black;
+    width: fit-content;
+    padding: 5px;
+}
