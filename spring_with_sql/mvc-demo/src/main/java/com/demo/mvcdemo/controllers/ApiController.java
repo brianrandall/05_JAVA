@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.mvcdemo.models.Donation;
+import com.demo.mvcdemo.models.User;
 import com.demo.mvcdemo.services.DonationService;
 
 @RestController
@@ -32,7 +33,7 @@ public class ApiController {
     @PostMapping("/donations")
     public Donation createDonation(
         @RequestParam("donationName") String donationName,
-        @RequestParam("donorName") String donorName,
+        @RequestParam("donorName") User donorName,
         @RequestParam("quantity") Integer quantity
     ) {
         Donation newDonation = new Donation(donorName, donationName, quantity);
@@ -48,7 +49,7 @@ public class ApiController {
     public Donation updateDonation(
         @PathVariable("id") Long id,
         @RequestParam("donationName") String donationName,
-        @RequestParam("donorName") String donorName,
+        @RequestParam("donorName") User donorName,
         @RequestParam("quantity") Integer quantity
     ) {
         return donationService.update(id, donationName, donorName, quantity);

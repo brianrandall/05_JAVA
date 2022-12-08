@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -24,10 +27,10 @@ public class Donation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @NotNull
-    @Size(min = 2, max = 25, message = "donor name needs to be at least 2 characters")
-    private String donorName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User donorName;
 
     @NotNull
     @Size(min = 2, max = 25, message = "donation name needs to be at least 2 characters")
@@ -48,7 +51,7 @@ public class Donation {
     public Donation() {}
 
     public Donation(
-            @NotNull @Size(min = 2, max = 25, message = "donor name needs to be at least 2 characters") String donorName,
+            @NotNull @Size(min = 2, max = 25, message = "donor name needs to be at least 2 characters") User donorName,
             @NotNull @Size(min = 2, max = 25, message = "donation name needs to be at least 2 characters") String donationName,
             @Min(value = 1, message = "donation amount must be greater than $0") @NotNull Integer quantity) {
         this.donorName = donorName;
@@ -65,11 +68,11 @@ public class Donation {
         this.id = id;
     }
 
-    public String getDonorName() {
+    public User getDonorName() {
         return donorName;
     }
 
-    public void setDonorName(String donorName) {
+    public void setDonorName(User donorName) {
         this.donorName = donorName;
     }
 

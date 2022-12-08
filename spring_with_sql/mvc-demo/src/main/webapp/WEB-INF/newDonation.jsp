@@ -15,11 +15,13 @@
     <title>time for a new donation</title>
 </head>
 <body>
-    <form:form action = "/donations/process" method="post" modelAttribute="donation">
+    <form:form action = "new-donation" method="post" modelAttribute="donation">
        <p>
-            <form:label path="donorName">Donor Name</form:label>
-            <form:input type="text" path="donorName" id="donorName" />
-            <form:errors path="donorName" cssClass="error"/>
+            <form:select path="donorName">
+                <c:forEach items="${allUsers}" var="user">
+                    <form:option value="${user.id}" path="donorName"><c:out value="${user.userName}" /> </form:option>
+                </c:forEach>
+            </form:select>
         </p>
         <p>
             <form:label path="donationName">Donation</form:label>

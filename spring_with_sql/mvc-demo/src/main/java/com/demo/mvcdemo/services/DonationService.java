@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.demo.mvcdemo.models.Donation;
+import com.demo.mvcdemo.models.User;
 import com.demo.mvcdemo.repositories.DonationRepository;
 
 @Service
@@ -36,7 +37,7 @@ public class DonationService {
     }
 
     //update a donation
-    public Donation update(Long id, String donationName, String donorName, Integer quantity) {
+    public Donation update(Long id, String donationName, User donorName, Integer quantity) {
         Donation donation = findOneDonation(id);
         donation.setDonationName(donationName);
         donation.setDonorName(donorName);

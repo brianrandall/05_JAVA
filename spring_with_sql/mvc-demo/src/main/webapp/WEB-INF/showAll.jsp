@@ -38,7 +38,7 @@
                         ${donation.donationName}
                     </td>
                     <td>
-                        ${donation.donorName}
+                        ${donation.donorName.userName}
                     </td>
                     <td>
                         ${donation.quantity}
@@ -46,7 +46,7 @@
                     <td>
                         <form action="/donations/${donation.id}" method="post">
                             <input type="hidden" name="_method" value="delete">
-                            <input type="submit" value="Delete ${donation.donorName}'s ${donation.donationName}">
+                            <input type="submit" value="Delete ${donation.donorName.userName}'s ${donation.donationName}">
                         </form>
                 </tr>
             </c:forEach>
