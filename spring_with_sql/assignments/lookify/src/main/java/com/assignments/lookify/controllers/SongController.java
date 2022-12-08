@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.assignments.lookify.models.Song;
 import com.assignments.lookify.services.SongService;
@@ -22,34 +21,6 @@ public class SongController {
         this.songService = songService;
     }
     
-    @GetMapping("/")
-    public String index() {
-        return "index.jsp";
-    }
-
-    @GetMapping("/dashboard")
-    public String dashboard(
-        @ModelAttribute("song") Song song, Model model) {
-        model.addAttribute("song", songService.allSongs());
-        return "dashboard.jsp";
-    }
-
-    @GetMapping("/search/")
-    public String searchSongs(
-        @ModelAttribute("song") Song song,
-        @RequestParam("search") String search, 
-        Model model) {
-        model.addAttribute("song", songService.searchArtists(search));
-        return "dashboard.jsp";
-    }
-
-    @GetMapping("/search/top-ten")
-    public String topTen(
-        @ModelAttribute("song") Song song, 
-        Model model) {
-        model.addAttribute("song", songService.topTenSongs());
-        return "topTen.jsp";
-    }
 
     @GetMapping("/songs/{id}")
     public String showSong(

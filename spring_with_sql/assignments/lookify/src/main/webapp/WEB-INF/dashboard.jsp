@@ -21,6 +21,11 @@
         <form action="/search/" method="get" id="song-search">
             <input type="text" name="search">
             <input type="submit" value="Search Artists">
+            <c:forEach items="${error}" var="error">
+                <span class="error"> <c:out value="${error}" /> </span>
+
+            </c:forEach>
+
         </form>
     </div>
     <table>
