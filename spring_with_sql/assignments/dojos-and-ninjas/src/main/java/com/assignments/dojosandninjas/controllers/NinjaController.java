@@ -28,7 +28,7 @@ public class NinjaController {
     public String newNinja(
         @ModelAttribute("ninja") Ninja ninja,
         Model model) {
-        model.addAttribute("dojos", dojoService.getAllDojos());
+        model.addAttribute("dojos", dojoService.getAllDojosOrderByCreatedAtDesc());
         return "ninja/new.jsp";
     }
 

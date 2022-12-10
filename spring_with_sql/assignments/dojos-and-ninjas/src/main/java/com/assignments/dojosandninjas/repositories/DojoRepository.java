@@ -10,4 +10,6 @@ import com.assignments.dojosandninjas.models.Dojo;
 @Repository
 public interface DojoRepository extends CrudRepository<Dojo, Long>{
     List<Dojo> findAll();
+    //list dojos by order of most recently created
+    List<Dojo> findAllByOrderByCreatedAtDesc();
 }

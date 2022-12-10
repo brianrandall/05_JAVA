@@ -29,6 +29,11 @@ public class DojoService {
         return dojoRepository.findAll();
     }
 
+    //get all dojos by order of most recently created
+    public List<Dojo> getAllDojosOrderByCreatedAtDesc() {
+        return dojoRepository.findAllByOrderByCreatedAtDesc();
+    }
+
     //update a dojo
     public void updateDojo(Dojo dojo) {
         dojoRepository.save(dojo);
