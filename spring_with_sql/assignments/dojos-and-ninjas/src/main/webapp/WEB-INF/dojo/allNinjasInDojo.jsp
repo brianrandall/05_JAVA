@@ -11,51 +11,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>look at all our donations</title>
+    <title>all the nijajajas in the dojojojo</title>
 </head>
 <body>
+    <a href="/" >back to make dojo</a><br>
+    <a href="/ninjas/new" >add a ninja to this dojo or to another dojo i really dont care do whatever you want</a>
+    <br>
+    <br>
+    <a href="/every-ninja-in-every-dojo-in-the-entire-world"> every dojo in every ninja</a>
+    <h1><c:out value="${dojo.name}" /></h1>
     <table>
         <thead>
             <tr>
                 <th>
-                    Donation
+                    First Name
                 </th>
                 <th>
-                    Donor Name
+                    Last Name
                 </th>
                 <th>
-                    Quantity
-                </th>
-                <th>
-                    Delete
+                    Age
                 </th>
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${allDonations}" var="donation">
+            <c:forEach items="${ninjas}" var="ninja">
                 <tr>
                     <td>
-                        ${donation.donationName}
+                        ${ninja.firstName}
                     </td>
                     <td>
-                        ${donation.donorName.userName}
+                        ${ninja.lastName}
                     </td>
                     <td>
-                        ${donation.quantity}
-                    </td>
-                    <td>
-                        <form action="/donations/${donation.id}" method="post">
-                            <input type="hidden" name="_method" value="delete">
-                            <input type="submit" value="Delete ${donation.donorName.userName}'s ${donation.donationName}">
-                        </form>
+                        ${ninja.age}
                     </td>
                 </tr>
             </c:forEach>
     </table>
-    <form action="/donations/search" method="get">
-        <input type="text" name="searchTerm">
-        <input type="submit" value="Search">
-    </form>
-    
 </body>
 </html>

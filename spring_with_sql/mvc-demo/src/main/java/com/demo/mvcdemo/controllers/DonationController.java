@@ -42,7 +42,9 @@ public class DonationController {
     }
 
     @GetMapping("/new-donation")
-    public String newDonation(@ModelAttribute("donation") Donation donation, Model model) {
+    public String newDonation(@ModelAttribute("donation") 
+    Donation donation, 
+    Model model) {
         model.addAttribute("allUsers", userService.findAllUsers());
         return "newDonation.jsp";
     }
@@ -50,8 +52,10 @@ public class DonationController {
     @PostMapping("/new-donation")
     public String processNewDonation(
         @Valid 
-        @ModelAttribute("donation") Donation donation, 
-        BindingResult result, Model model) {
+        @ModelAttribute("donation") 
+        Donation donation, 
+        BindingResult result, 
+        Model model) {
         if (result.hasErrors()) {
             model.addAttribute("allUsers", userService.findAllUsers());
             return "newDonation.jsp";

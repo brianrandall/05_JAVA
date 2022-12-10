@@ -1,4 +1,4 @@
-package com.demo.mvcdemo.models;
+package com.example.travelwithloginandreg.models;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -20,39 +21,42 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "users")
+@Table(name="users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @NotEmpty(message = "user name is req'd")
-    @Size(min = 2, max = 25, message = "user name needs to be at least 2 characters")
+
+    @NotEmpty(message="Username is required!")
+    @Size(min=3, max=30, message="Username must be between 3 and 30 characters")
     private String userName;
-
-    @NotEmpty(message = "email is req'd")
-    @Email(message = "email must be valid")
+    
+    @NotEmpty(message="Email is required!")
+    @Email(message="Please enter a valid email!")
     private String email;
+    
+    @NotEmpty(message="Password is required!")
+    @Size(min=8, max=128, message="Password must be between 8 and 128 characters")
+    private String password;
+    
+    @Transient
+    //transient means it will not be saved to the database. it is only used for validation
+    @NotEmpty(message="Confirm Password is required!")
+    @Size(min=8, max=128, message="Confirm Password must be between 8 and 128 characters")
+    private String confirm;
 
-    @OneToMany(mappedBy = "donorName", fetch = FetchType.LAZY)
-    private List<Donation> donations;
+    @OneToMany(mappedBy="traveler", fetch = FetchType.LAZY)
+    private List<Destination> destinations;
 
-    @Column(updatable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(updatable=false)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createdAt;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
 
     public User() {}
-
-    public User(
-            @NotEmpty(message = "user name is req'd") @Size(min = 2, max = 25, message = "user name needs to be at least 2 characters") String userName,
-            @NotEmpty(message = "email is req'd") @Email(message = "email must be valid") String email) {
-        this.userName = userName;
-        this.email = email;
-    }
 
     public Long getId() {
         return id;
@@ -78,6 +82,30 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(String confirm) {
+        this.confirm = confirm;
+    }
+
+    public List<Destination> getDestinations() {
+        return destinations;
+    }
+
+    public void setDestinations(List<Destination> destinations) {
+        this.destinations = destinations;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -94,21 +122,16 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
-    public List<Donation> getDonations() {
-        return donations;
-    }
-
-    public void setDonations(List<Donation> donations) {
-        this.donations = donations;
-    }
-
     @PrePersist
-    protected void onCreate() {
+    protected void onCreate(){
         this.createdAt = new Date();
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    protected void onUpdate(){
         this.updatedAt = new Date();
     }
+
+    
+    
 }

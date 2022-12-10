@@ -17,6 +17,7 @@
 <body>
     <form:form action = "/donations/edit/process/${donation.id}" method="post" modelAttribute="donation">
     <input type="hidden" name="_method" value="put">
+    <form:input type="hidden" path="donor" />
     <p>
         <form:label path="donorName">Donor Name</form:label>
         <form:input type="text" path="donorName" id="donorName" />
