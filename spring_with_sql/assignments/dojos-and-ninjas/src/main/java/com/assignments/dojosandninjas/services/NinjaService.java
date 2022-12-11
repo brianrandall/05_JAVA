@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.assignments.dojosandninjas.models.Dojo;
 import com.assignments.dojosandninjas.models.Ninja;
 import com.assignments.dojosandninjas.repositories.NinjaRepository;
 
@@ -20,11 +19,6 @@ public class NinjaService {
         ninjaRepository.save(ninja);
     }
 
-    //get one ninja by id
-    public Ninja getNinja(Long id) {
-        return ninjaRepository.findById(id).orElse(null);
-    }
-
     //get all ninjas
     public List<Ninja> getAllNinjas() {
         return ninjaRepository.findAll();
@@ -34,15 +28,4 @@ public class NinjaService {
     public List<Ninja> getAllNinjasWithDojoId(Long id) {
         return ninjaRepository.findByDojoId(id);
     }
-
-    //update a ninja
-    public void updateNinja(Ninja ninja) {
-        ninjaRepository.save(ninja);
-    }
-
-    //delete a ninja
-    public void deleteNinja(Long id) {
-        ninjaRepository.deleteById(id);
-    }
-
 }

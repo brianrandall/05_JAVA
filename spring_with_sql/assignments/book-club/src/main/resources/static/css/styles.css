@@ -1,0 +1,19 @@
+.error {
+    color: red;
+    font-size: small;
+    font-style: oblique;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.edit-delete {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
