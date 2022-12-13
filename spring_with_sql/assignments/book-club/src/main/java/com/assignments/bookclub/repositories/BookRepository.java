@@ -10,6 +10,7 @@ import com.assignments.bookclub.models.Book;
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long>{
     List<Book> findAll();
+    List<Book> findByTitleContaining(String search);
 
     
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.assignments.bookclub.models.Book;
 import com.assignments.bookclub.models.User;
@@ -39,6 +40,30 @@ public class BookController {
         model.addAttribute("user", user);
         model.addAttribute("allBooks", bookService.allBooks());
         return "book/all.jsp";
+    }
+
+    @GetMapping("/search")
+    public String searchBooks(
+        @ModelAttribute("book") Book book, 
+        @RequestParam("search") String search,   
+        Model model,
+        @ModelAttribute("error") String error,
+        HttpSession session) {
+        
+        if(bookService.searchBook(search).isEmpty() || search == null) {
+            model.addAttribute("error", search +" not found");
+            model.addAttribute("allBooks", bookService.allBooks());
+            Long user_id = (Long) session.getAttribute("user_id");
+            User user = userService.getUser(user_id);
+            model.addAttribute("user", user);
+            return "book/all.jsp";
+        } else {
+            Long user_id = (Long) session.getAttribute("user_id");
+            User user = userService.getUser(user_id);
+            model.addAttribute("user", user);
+            model.addAttribute("allBooks", bookService.searchBook(search));
+            return "book/all.jsp";
+        }
     }
 
     @GetMapping("/new")

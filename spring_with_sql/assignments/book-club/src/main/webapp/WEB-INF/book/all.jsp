@@ -14,15 +14,18 @@
     <title>all the books in the club</title>
 </head>
 <body>
-    <div class="top">
+    <div class="home">
         <h1>Welcome, <c:out value="${user.name}"/></h1>
         <a href="/logout">logout</a>
-    </div>
-    <div class="top">
         <span style="font-style: oblique;">
             Books from everyone's shelves.
         </span>
         <a href="/books/new">+ add a book</a>
+        <form action="/books/search/" method="get" id="book-search">
+            <input type="text" name="search"/>
+            <input type="submit" value="Search Books"/>
+            <span class="error"> <c:out value="${error}" /> </span> 
+        </form>
     </div>
     <table>
         <thead>
@@ -45,7 +48,7 @@
             <c:forEach items="${allBooks}" var="book">
                 <tr>
                     <td>
-                        ${book.id}
+                       <c:out value="${book.id}"/>
                     </td>
                     <td>
                         <a href="/books/${book.id}">

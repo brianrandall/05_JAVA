@@ -1,5 +1,7 @@
 package com.assignments.bookclub.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.assignments.bookclub.models.Book;
@@ -26,6 +28,11 @@ public class BookService {
     // retrieve a book
     public Book findBook(Long id) {
         return bookRepository.findById(id).orElse(null);
+    }
+
+    //search for a book
+    public List<Book> searchBook(String search) {
+        return bookRepository.findByTitleContaining(search);
     }
 
     //update a book

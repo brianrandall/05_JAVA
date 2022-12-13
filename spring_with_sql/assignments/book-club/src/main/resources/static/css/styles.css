@@ -4,6 +4,11 @@
     font-style: oblique;
 }
 
+.home {
+    display: flex;
+    flex-direction: column;
+}
+
 .top {
     display: flex;
     justify-content: space-between;

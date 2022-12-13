@@ -1,0 +1,11 @@
+.topnav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.error {
+    color: red;
+    font-size: small;
+    font-style: oblique;
+}
