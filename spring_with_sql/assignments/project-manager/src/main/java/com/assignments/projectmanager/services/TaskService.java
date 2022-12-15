@@ -21,7 +21,7 @@ public class TaskService {
 
     //get all tasks by project
     public List<Task> allTasksByProject(Long project){
-        return taskRepository.findByProjectIdIs(project);
+        return taskRepository.findByProjectId(project);
     }
 
     //create a task

@@ -11,6 +11,6 @@ import com.assignments.projectmanager.models.Task;
 public interface TaskRepository extends CrudRepository<Task, Long>{
      
         List<Task> findAll();
-        List<Task> findByProjectIdIs(Long id);
+        List<Task> findByProjectId(Long id);
     
 }

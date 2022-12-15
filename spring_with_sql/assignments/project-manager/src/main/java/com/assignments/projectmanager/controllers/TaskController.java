@@ -38,7 +38,6 @@ public class TaskController {
             if (session.getAttribute("user_id") == null) {
                 return "redirect:/";
             }
-           
             Project project = projectService.findProject(id);
             model.addAttribute("project", project);
             model.addAttribute("tasks", taskService.allTasksByProject(id));
