@@ -1,6 +1,12 @@
+package oop.assignments.BaristasChallenge;
+
+import java.util.ArrayList;
+
+
 public class TestOrders {
 
     public static void main(String[] args) {
+        
         Item item1 = new Item("cappuccino", 3.50);
         Item item2 = new Item("mocha", 4.20);
         Item item3 = new Item("latte", 5.10);
