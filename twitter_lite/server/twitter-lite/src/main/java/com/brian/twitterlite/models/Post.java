@@ -22,6 +22,8 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "posts")
 public class Post {
@@ -34,9 +36,10 @@ public class Post {
     @Size(min=1, max=139)
     private String content;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private User poster;
 
     @ManyToMany(fetch = FetchType.LAZY)
         @JoinTable(
@@ -76,12 +79,12 @@ public class Post {
         this.content = content;
     }
 
-    public User getUser() {
-        return user;
+    public User getPoster() {
+        return poster;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setPoster(User poster) {
+        this.poster = poster;
     }
 
     public List<User> getUsers_who_favorited() {

@@ -2,6 +2,7 @@ package com.brian.twitterlite.controllers;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.groups.Default;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brian.twitterlite.models.Post;
@@ -43,8 +46,10 @@ public class ApiController {
     public User searchForUsername(
         @PathVariable("username") String username
     ) {
-        return userService.getUsername(username); 
+        return userService.getUsername(username);
     }
+
+    
 
 
     @PostMapping("/users/register")
@@ -93,18 +98,41 @@ public class ApiController {
 		return new ResponseEntity<>("goooooood", HttpStatus.OK);
 	}
 
-    @PostMapping("/posts")
+
+    // @PostMapping("/posts/{username}")
+    // public ResponseEntity<String> createPost(
+    //     @RequestBody Post newPost,
+    //     BindingResult result,
+    //     @RequestParam("username") String username,
+    //     @ModelAttribute("post") Post post,
+    //     Model model
+    //     ) {
+    //     if(result.hasErrors()) {
+    //         return new ResponseEntity<>("bad", HttpStatus.BAD_REQUEST);
+    //     }
+    //     User user = userService.getUsername(username);
+    //     newPost.setPoster(user);
+    //     postService.createPost(newPost);
+    //     return new ResponseEntity<>("good", HttpStatus.OK);
+    // }
+
+    //post a post to a user
+    @PostMapping("/posts/{username}")
     public ResponseEntity<String> createPost(
         @RequestBody Post newPost,
-        HttpSession session
+        BindingResult result,
+        @PathVariable("username") String username,
+        @ModelAttribute("post") Post post,
+        Model model
         ) {
-        if(newPost.getId() == null) {
+        if(result.hasErrors()) {
             return new ResponseEntity<>("bad", HttpStatus.BAD_REQUEST);
         }
-        User user = userService.findUserById(newPost.getId());
-        newPost.setUser(user);
+        User user = userService.getUsername(username);
+        newPost.setPoster(user);
         postService.createPost(newPost);
         return new ResponseEntity<>("good", HttpStatus.OK);
     }
+
     
 }

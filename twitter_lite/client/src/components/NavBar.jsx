@@ -12,7 +12,7 @@ const logout = () => {
     window.location.href = '/'
 }
 
-axios.get(`http://localhost:8080/api/users/email/${sessionStorage.getItem('user')}`)
+axios.get(`http://localhost:8080/api/users/email/${sessionStorage.getItem('loggedIn')}`)
     .then((res) => {
         console.log(res.data)
         setUsername(res.data.username)
@@ -21,7 +21,6 @@ axios.get(`http://localhost:8080/api/users/email/${sessionStorage.getItem('user'
     })
     .catch((err) => console.log(err))
 
-    // {sessionStorage.getItem('user') ? <h1>Welcome to Twitter Lite {sessionStorage.getItem('user')} </h1> : <h1>Not logged in</h1>}
 
 return (
 <div id='nav'>

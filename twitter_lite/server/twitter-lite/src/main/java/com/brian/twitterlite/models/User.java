@@ -60,7 +60,7 @@ public class User {
     @NotBlank(message="passwords do not match!")
     private String passwordConfirmation;
 
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="poster", fetch = FetchType.LAZY)
     private List<Post> posts;
 
     @ManyToMany(fetch = FetchType.LAZY)
