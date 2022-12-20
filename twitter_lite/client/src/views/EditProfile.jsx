@@ -1,10 +1,9 @@
 import React from 'react'
 import NavBar from '../components/NavBar'
-import NewPost from '../components/NewPost'
-import Feed from '../components/HomeFeed'
 import Search from '../components/Search'
+import ProfileEdit from '../components/ProfileEdit'
 
-const Home = () => {
+const EditProfile = () => {
 
 
 
@@ -14,8 +13,7 @@ const Home = () => {
             <NavBar />
         </div>
         <div id='home-center'>
-            <NewPost />
-            <Feed />
+            <ProfileEdit />
         </div>
         <div id='home-right'>
             <Search />
@@ -24,4 +22,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default EditProfile

@@ -1,12 +1,9 @@
 import React from 'react'
 import NavBar from '../components/NavBar'
-import NewPost from '../components/NewPost'
-import Feed from '../components/HomeFeed'
 import Search from '../components/Search'
+import Post from '../components/Post'
 
-const Home = () => {
-
-
+const OnePost = () => {
 
   return (
     <div id='home'>
@@ -14,8 +11,7 @@ const Home = () => {
             <NavBar />
         </div>
         <div id='home-center'>
-            <NewPost />
-            <Feed />
+            <Post />
         </div>
         <div id='home-right'>
             <Search />
@@ -24,4 +20,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default OnePost

@@ -1,8 +1,8 @@
 import React from 'react'
 import NavBar from '../components/NavBar'
-import NewPost from '../components/NewPost'
-import Feed from '../components/HomeFeed'
+import ProfileFeed from '../components/ProfileFeed'
 import Search from '../components/Search'
+import ProfileHeader from '../components/ProfileHeader'
 
 const Home = () => {
 
@@ -14,8 +14,8 @@ const Home = () => {
             <NavBar />
         </div>
         <div id='home-center'>
-            <NewPost />
-            <Feed />
+            <ProfileHeader />
+            <ProfileFeed />
         </div>
         <div id='home-right'>
             <Search />

@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const NavBar = () => {
 
 const [username, setUsername] = useState('')
 const [firstName, setFirstName] = useState('')
+const [id, setId] = useState('')
 
 const logout = () => {
-    sessionStorage.removeItem('user')
+    sessionStorage.removeItem('loggedIn')
     //refresh the page
     window.location.href = '/'
 }
@@ -17,6 +19,9 @@ axios.get(`http://localhost:8080/api/users/email/${sessionStorage.getItem('logge
         console.log(res.data)
         setUsername(res.data.username)
         setFirstName(res.data.firstName)
+        setId(res.data.id)
+        sessionStorage.setItem('id', res.data.id)
+        sessionStorage.setItem('loggedInUsername', res.data.username)
         
     })
     .catch((err) => console.log(err))
@@ -31,8 +36,10 @@ return (
     <span>@{username}</span>
     <span>......</span>
     <a href='/home'>Home</a>
-    <a href='/profile'>Profile</a>
-    <a href='/editprofile' style={{borderBottom: '1px solid #828282', paddingBottom: '5px'}}>Settings</a>
+    <Link to={`/profile/${username}`}>Profile</Link>
+    <span style={{borderBottom: '1px solid #828282', paddingBottom: '5px'}}>
+        <Link to={`/profile/${id}/edit`}>Settings</Link>
+    </span>
     <button onClick={logout} >Logout</button> 
 </div>
 )

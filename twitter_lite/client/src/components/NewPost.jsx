@@ -1,12 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-
-
 
 const NewPost = () => {
-
-const nav = useNavigate();
 
 const [username, setUsername] = useState('')
 const [count, setCount] = useState(0)

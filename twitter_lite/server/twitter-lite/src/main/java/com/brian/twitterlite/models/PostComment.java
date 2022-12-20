@@ -1,6 +1,7 @@
 package com.brian.twitterlite.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,6 +37,10 @@ public class PostComment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @NotBlank
+    private String username;
+
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -74,6 +79,14 @@ public class PostComment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Post getPost() {

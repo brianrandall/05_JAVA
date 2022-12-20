@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -38,6 +39,8 @@ public class UserFollowing {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
 
+    @NotBlank
+    private Long followingId;
 
     public UserFollowing() {
     }
@@ -48,7 +51,7 @@ public class UserFollowing {
 
     public void setId(Long id) {
         this.id = id;
-    }
+    }   
 
     public User getUser() {
         return user;
@@ -72,6 +75,14 @@ public class UserFollowing {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Long getFollowingId() {
+        return followingId;
+    }
+
+    public void setFollowingId(Long followingId) {
+        this.followingId = followingId;
     }
 
     @PrePersist

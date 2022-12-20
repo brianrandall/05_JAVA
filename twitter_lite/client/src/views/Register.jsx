@@ -116,7 +116,7 @@ const Register = () => {
                     }).then((response) => {
                         console.log(response)
                         console.log("new user added")
-                        sessionStorage.setItem('user', firstName)
+                        sessionStorage.setItem('loggedIn', email)
                         nav('/home')
                     }).catch(error => {
                         console.log(error)

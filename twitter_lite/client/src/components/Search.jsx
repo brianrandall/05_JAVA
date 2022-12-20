@@ -9,7 +9,7 @@ const Search = () => {
     }
   return (
     <div>
-        <textarea placeholder='Search Twitter.lite' onChange={ search } />
+        <textarea placeholder='Search Twitter.lite' onChange={ search } rows={'2'} cols={'20'} style={{resize: 'none'}} />
         <div id='search-results'>
             {searchFor}
         </div>

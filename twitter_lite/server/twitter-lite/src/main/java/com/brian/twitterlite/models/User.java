@@ -24,6 +24,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -47,6 +48,12 @@ public class User {
     @NotBlank(message="Email is required")
     @Email(message="Email must be valid")
     private String email;
+
+    @Size(min=1, max=25)
+    private String location;
+
+    @Size(min=1, max=99)
+    private String bio;
 
     private Boolean admin;
 
@@ -78,7 +85,7 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<PostComment> comments;
 
-    
+
     @Column(updatable=false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createdAt;
@@ -144,6 +151,22 @@ public class User {
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public List<Post> getPosts() {

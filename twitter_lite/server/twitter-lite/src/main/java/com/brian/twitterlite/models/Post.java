@@ -119,6 +119,7 @@ public class Post {
         this.updatedAt = updatedAt;
     }
 
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = new Date();

@@ -8,12 +8,15 @@ import org.springframework.validation.BindingResult;
 
 import com.brian.twitterlite.models.User;
 import com.brian.twitterlite.models.UserLogin;
+import com.brian.twitterlite.repositories.PostRepository;
 import com.brian.twitterlite.repositories.UserRepository;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    public UserService(UserRepository userRepository) {
+    private final PostRepository postRepository;
+    public UserService(UserRepository userRepository, PostRepository postRepository) {
+        this.postRepository = postRepository;
         this.userRepository = userRepository;
     }
 
@@ -52,6 +55,7 @@ public class UserService {
         }
         return userRepository.findByUsername(username);
     }
+
 
     //create user
     public User createUser(User user) {
