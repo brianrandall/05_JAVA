@@ -10,15 +10,15 @@ const Feed = () => {
 
   const id =  sessionStorage.getItem('id')
   const [post, setPost] = useState([])
-  const [username, setUsername] = useState('')
   
   useEffect(() => {
   axios.get(`http://localhost:8080/api/posts/all/${id}/following`)
   .then((res) => {
       setPost(res.data)
+      console.log(post)
   })
   .catch((err) => console.log(err))
-  }, [post])
+  }, [])
 
   const mention = {
     formatHref: {
@@ -30,7 +30,6 @@ const Feed = () => {
     return new Date(b.createdAt) - new Date(a.createdAt)
   })
 
-
   return (
     <div>
       <div className='tweets'>
@@ -40,10 +39,12 @@ const Feed = () => {
                     <div className='tweet' key={i}>
                         <div>
                         <code style={{float: 'left', fontSize: 'small'}}>
-                            @{p.username}{' // '}
-                            {p.user_id}
+              
+                            @{p.poster.username} {' // '} 
+                            
+                            {p.posted_by}
                             {`${new Date(p.createdAt).toLocaleDateString('default', {day: 'numeric', year: 'numeric', month:'short'})} `}{' // '}
-                            <Link to={`/post/${p.username}/${p.id}`}>  
+                            <Link to={`/post/${p.poster.username}/${p.id}`}>  
                                 {p.comments.length === 1 ? <span>{p.comments.length} comment</span> : null}
                                 {p.comments.length === 0 ? <span>comment</span> : null} 
                                 {p.comments.length > 1 ? <span>{p.comments.length} comments</span> : null} 

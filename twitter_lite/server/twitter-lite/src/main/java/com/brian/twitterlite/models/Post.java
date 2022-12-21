@@ -1,5 +1,6 @@
 package com.brian.twitterlite.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -22,11 +23,18 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+// @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name = "posts")
-public class Post {
+// @JsonIdentityInfo(
+//     generator = ObjectIdGenerators.PropertyGenerator.class,
+//     property = "id")
+public class Post implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +44,7 @@ public class Post {
     @Size(min=1, max=139)
     private String content;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User poster;
 
@@ -86,6 +93,7 @@ public class Post {
     public void setPoster(User poster) {
         this.poster = poster;
     }
+
 
     public List<User> getUsers_who_favorited() {
         return users_who_favorited;

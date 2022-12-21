@@ -1,5 +1,6 @@
 package com.brian.twitterlite.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -24,10 +25,18 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @Entity
 @Table(name = "users")
-public class User {
+// @JsonIdentityInfo(
+//     generator = ObjectIdGenerators.PropertyGenerator.class,
+//     property = "id")
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,9 +76,11 @@ public class User {
     @NotBlank(message="passwords do not match!")
     private String passwordConfirmation;
 
-    @OneToMany(mappedBy="poster", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("poster")
+    @OneToMany(mappedBy="poster", fetch = FetchType.EAGER)
     private List<Post> posts;
 
+   
     @ManyToMany(fetch = FetchType.LAZY)
         @JoinTable(
             name = "users_favorites",
