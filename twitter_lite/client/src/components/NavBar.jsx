@@ -11,6 +11,8 @@ const [id, setId] = useState('')
 
 const logout = () => {
     sessionStorage.removeItem('loggedIn')
+    sessionStorage.removeItem('id')
+    sessionStorage.removeItem('loggedInUsername')
     //refresh the page
     window.location.href = '/'
 }

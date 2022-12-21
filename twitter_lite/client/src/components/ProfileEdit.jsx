@@ -18,7 +18,6 @@ const ProfileEdit = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     
-
     useEffect(() => {
         axios.get(`http://localhost:8080/api/users/${id}`)
         .then((res) => {
@@ -35,6 +34,30 @@ const ProfileEdit = () => {
         .catch((err) => console.log(err))
     }, [id])
 
+    const updateUser = (e) => {
+        e.preventDefault()
+
+        const editUser = {
+            id,
+            firstName,
+            lastName,
+            username,
+            email,
+            bio,
+            location
+        }
+
+        console.log(editUser)
+
+        axios.put(`http://localhost:8080/api/users/${id}`,
+            {editUser}
+        )
+        .then((res) => {
+            console.log(res.data)
+        })
+        .catch((err) => console.log(err))
+    }
+
     const checkIfLoggedIn = () => {
         if (sessionStorage.getItem('loggedIn') === user.email) {
             return true
@@ -42,7 +65,6 @@ const ProfileEdit = () => {
             return false
         }
     }
-
 
   return (
     <div>
@@ -62,7 +84,7 @@ const ProfileEdit = () => {
     </div>
     <hr/>
     {checkIfLoggedIn() ? <div>
-        <form className='editForm'>
+        <form className='editForm' onSubmit={updateUser}>
             <div class='row'>
                 <div>
                     <p>First Name</p>

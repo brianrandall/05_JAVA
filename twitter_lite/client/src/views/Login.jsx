@@ -44,7 +44,7 @@ const Login = () => {
             <input type="text" placeholder="email" onChange={(e) => setEmail(e.target.value)} /><br/>
             <input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} /><br/>
             {tryagain ? <p style={{color: 'red'}}>{tryagain}</p> : ''}
-            <button type="submit" style={{marginTop: '10px', marginTop: '5px'}}>Login</button>
+            <button type="submit" style={{marginTop: '10px', marginTop: '5px', marginLeft: '47px'}}>Login</button>
         </form>
         
 
