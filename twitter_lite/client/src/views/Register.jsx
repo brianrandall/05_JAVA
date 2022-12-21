@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import arrow from '../components/img/arrow100.png'
+import { regexp } from 'linkifyjs'
 
 const Register = () => {
 
@@ -62,8 +64,9 @@ const Register = () => {
 
     const emailValidations = (e) => {
         setEmail(e.target.value)
-        if(e.target.value.length < 2){
-            setEmailError('Email must be at least 2 characters')
+        //check input against email regex pattern
+        if(e.target.value < 5){
+            setEmailError('Email must be a valid email address')
         }
         else {
             setEmailError('')
@@ -129,28 +132,32 @@ const Register = () => {
 
   return (
     <div className='middleOfPage'>
-        <h3>join us </h3>
-        <form onSubmit={registerNewUser} >
+        <img src={arrow} height='33'/> 
+        <code>join us </code>
+        <form onSubmit={registerNewUser} class='centerForm'>
             
             <input type="text" placeholder="first name" required={true} name='firstName' onChange={ firstNameValidations } /><br/>
-            {firstNameError ? <p className='error-text'>{firstNameError}</p> : ''}
             <input type="text" placeholder="last name" required={true} name='lastName' onChange={ lastNameValidations } /><br/>
-            {lastNameError ? <p className='error-text'>{lastNameError}</p> : ''}
             <input type="text" placeholder="username" required={true} onChange={ usernameValidations } /><br/>
-            {usernameError ? <p className='error-text'>{usernameError}</p> : ''}
-            {usernameExists ? <p className='error-text'>{usernameExists}</p> : ''}
             <input type="text" placeholder="email" required={true} onChange={ emailValidations } /><br/>
-            {emailError ? <p className='error-text'>{emailError}</p> : ''}
             <input type="password" placeholder="password" required={true} onChange={ passwordValidations } /><br/>
-            {passwordError ? <p className='error-text'>{passwordError}</p> : ''}
             <input type="password" placeholder="confirm password" required={true} onChange={ passwordCompare }/><br/>
-            {passwordConfirmationError ? <p className='error-text'>{passwordConfirmationError}</p> : ''}
             {fnx === true && lnx === true && unx === true && emx === true && pwx === true && pcx === true
             ?
-            <button type="submit" style={{marginTop: '10px'}}>Register</button>
+            <button type="submit" style={{marginTop: '10px', marginLeft: '40px'}}>Register</button>
             :
-            <button type="submit" style={{marginTop: '10px'}} disabled>Register</button>}
+            <button type="submit" style={{marginTop: '10px', marginLeft: '40px'}}
+             disabled>Register</button>}
         </form>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+        {firstNameError ? <span className='error-text'>{'>>'}{firstNameError}</span> : ''}
+        {lastNameError ? <span className='error-text'>{'>>'}{lastNameError}</span> : ''}
+        {usernameError ? <span className='error-text'>{'>>'}{usernameError}</span> : ''}
+        {usernameExists ? <span className='error-text'>{'>>'}{usernameExists}</span> : ''}
+        {emailError ? <span className='error-text'>{'>>'}{emailError}</span> : ''}
+        {passwordError ? <span className='error-text'>{'>>'}{passwordError}</span> : ''}
+        {passwordConfirmationError ? <span className='error-text'>{'>>'}{passwordConfirmationError}</span> : ''}
+        </div>
         {password}<br/>
         {passwordConfirmation}
     </div>

@@ -87,7 +87,11 @@
 </dependency>
 <!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
 
-
+<dependency>
+    <groupId>com.github.javafaker</groupId>
+    <artifactId>javafaker</artifactId>
+    <version>0.15</version>
+</dependency>
 <!-- end added dependencies -->
 	</dependencies>
 

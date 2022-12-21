@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import arrow from '../components/img/arrow100.png'
 
 const Login = () => {
 
@@ -37,19 +38,20 @@ const Login = () => {
 
   return (
     <div className='middleOfPage'>
-        
-        <h3>Welcome to Twitter lite</h3>
+       <img src={arrow} height='33'/> 
+        <code>welcome to twitter.lite</code>
         <form onSubmit={loginUser}>
             <input type="text" placeholder="email" onChange={(e) => setEmail(e.target.value)} /><br/>
             <input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} /><br/>
             {tryagain ? <p style={{color: 'red'}}>{tryagain}</p> : ''}
-            <button type="submit" style={{marginTop: '10px'}}>Login</button>
+            <button type="submit" style={{marginTop: '10px', marginTop: '5px'}}>Login</button>
         </form>
         
 
         <div>
-            <p>New User? <a href="/register" style={{fontStyle: 'oblique'}}>Sign up</a></p>
+            <code>new user? <a href="/register" style={{fontStyle: 'oblique'}}>Sign up</a></code>
         </div>
+        
     </div>
   )
 }

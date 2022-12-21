@@ -56,6 +56,11 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    //search users by username
+    public List<User> searchUsers(String username) {
+        return userRepository.findByUsernameContaining(username);
+    }
+
 
     //create user
     public User createUser(User user) {

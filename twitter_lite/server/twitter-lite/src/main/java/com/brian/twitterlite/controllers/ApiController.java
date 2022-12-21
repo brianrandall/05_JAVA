@@ -25,6 +25,7 @@ import com.brian.twitterlite.models.UserLogin;
 import com.brian.twitterlite.services.PostCommentService;
 import com.brian.twitterlite.services.PostService;
 import com.brian.twitterlite.services.UserService;
+import com.github.javafaker.Faker;
 
 @RestController
 @CrossOrigin
@@ -53,6 +54,13 @@ public class ApiController {
         return userService.getUsername(username);
     }
 
+    @GetMapping("/users/search/{search}")
+    public List<User> searchForUsers(
+        @PathVariable("search") String search
+    ) {
+        return userService.searchUsers(search);
+    }
+
     @GetMapping("/users/{id}")
     public User searchForId(
         @PathVariable("id") Long id
@@ -60,7 +68,28 @@ public class ApiController {
         return userService.findUserById(id);
     }
 
-    
+    @GetMapping("/users/fake/lots/of/users")
+    public String fakeUsers(
+        @ModelAttribute("user") User user
+    ) {
+        for (int i = 0; i < 20; i++) {
+
+            Faker faker = new Faker();
+            User newUser = new User();
+
+            newUser.setAdmin(false);
+            newUser.setFirstName(faker.name().firstName());
+            newUser.setLastName(faker.name().lastName());
+            newUser.setBio(faker.commerce().productName());
+            newUser.setEmail(faker.internet().emailAddress());
+            newUser.setLocation(faker.address().cityName());
+            newUser.setPassword("Password1!");
+            newUser.setPasswordConfirmation("Password1!");
+            newUser.setUsername(faker.ancient().hero());
+            userService.registerUser(newUser);
+        }
+        return "fake users created";
+    }
 
 
     @PostMapping("/users/register")
@@ -178,7 +207,7 @@ public class ApiController {
         @PathVariable("id") Long id
     ) {
         List<Post> posts = postService.allPostsByUserAndFollowing(id);
-        
+
         return posts;
     }
 }

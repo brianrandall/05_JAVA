@@ -40,9 +40,7 @@ const Feed = () => {
                         <div>
                         <code style={{float: 'left', fontSize: 'small'}}>
               
-                            @{p.poster.username} {' // '} 
-                            
-                            {p.posted_by}
+                            <Link to={`/profile/${p.poster.username}`}>@{p.poster.username}</Link>{' // '}
                             {`${new Date(p.createdAt).toLocaleDateString('default', {day: 'numeric', year: 'numeric', month:'short'})} `}{' // '}
                             <Link to={`/post/${p.poster.username}/${p.id}`}>  
                                 {p.comments.length === 1 ? <span>{p.comments.length} comment</span> : null}

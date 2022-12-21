@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import arrow from '../components/img/arrow100.png'
 
 const NavBar = () => {
 
@@ -29,7 +30,7 @@ axios.get(`http://localhost:8080/api/users/email/${sessionStorage.getItem('logge
 
 return (
 <div id='nav'>
-    
+    <img src={arrow} alt='arrow' style={{width: '30px', height: '30px'}} />
     <code>twitter.lite</code>
     <span>......</span>
     <span style={{fontStyle:"oblique"}}>Hello {firstName}</span>

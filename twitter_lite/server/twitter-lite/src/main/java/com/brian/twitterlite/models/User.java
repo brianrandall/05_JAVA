@@ -200,6 +200,7 @@ public class User implements Serializable {
         return passwordConfirmation;
     }
 
+
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
     }
