@@ -27,9 +27,26 @@ const ProfileHeader = () => {
         .catch((err) => console.log(err))
     }
 
+    // const checkWhoIsLoggedIn = () => {
+    //     if (sessionStorage.getItem('id') != user.id) {
+    //         return true
+    //     } else {
+    //         return false
+    //     }
+    // }
+
     const checkWhoIsLoggedIn = () => {
         if (sessionStorage.getItem('id') != user.id) {
-            return true
+            return checkIfFollowing() ? <Link to={`/profile/${user._id}/following`}>Unfollow @{user.username}</Link> : <Link onClick={ follow }>Follow @{user.username}</Link>
+        } else {
+            return false
+        }
+    }
+
+
+    const checkIfFollowing = () => {
+        if (sessionStorage.getItem('loggedInUserFollowing').includes(user.id)) {
+            return 'following'
         } else {
             return false
         }
@@ -47,7 +64,9 @@ const ProfileHeader = () => {
             <span >Joined {`${new Date(user.createdAt).toLocaleDateString('default', {day: 'numeric', year: 'numeric', month:'short'})} `}</span>
         </div>
         <span>
-        {checkWhoIsLoggedIn() ? <Link onClick={ follow }>Follow @{user.username}</Link> : null}
+        {/* {checkWhoIsLoggedIn() ? <Link onClick={ follow }>Follow @{user.username}</Link> : null} */}
+        {/* {checkIfFollowing() ? <Link to={`/profile/${user._id}/following`}>Following</Link> : null} */}
+        {checkWhoIsLoggedIn()}
         </span>
         <span>
             {following.length} Following 

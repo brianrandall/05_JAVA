@@ -23,9 +23,8 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 // @JsonIgnoreProperties({"hibernateLazyInitializer"})
@@ -44,10 +43,17 @@ public class Post implements Serializable {
     @Size(min=1, max=139)
     private String content;
 
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User poster;
 
+    // @JsonIgnoreProperties("favorited_posts")
+    // @OneToMany(mappedBy = "favorited_posts", fetch = FetchType.EAGER)
+    // private List<User> users_who_favorited;
+
+    @JsonIdentityReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @ManyToMany(fetch = FetchType.LAZY)
         @JoinTable(
             name = "users_favorites",
@@ -93,7 +99,6 @@ public class Post implements Serializable {
     public void setPoster(User poster) {
         this.poster = poster;
     }
-
 
     public List<User> getUsers_who_favorited() {
         return users_who_favorited;

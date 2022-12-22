@@ -24,8 +24,9 @@ const Login = () => {
             console.log(response)
             if (response.status === 200) {
                 console.log('login successful')
-                window.location.href = '/home'
                 sessionStorage.setItem('loggedIn', email)
+                window.location.href = '/home'
+                
             }
             else {
                 console.log(response.data)

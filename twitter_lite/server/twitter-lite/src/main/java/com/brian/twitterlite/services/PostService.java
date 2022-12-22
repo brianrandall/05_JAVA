@@ -41,6 +41,21 @@ public class PostService {
         return postRepository.findByUser(user.getId());
     }
 
+    //add a favorite to a post
+    public Post addFavorite(Long user_id, Long post_id) {
+        Post post = postRepository.findById(post_id).orElse(null);
+        User user = userRepository.findById(user_id).orElse(null);
+        List<User> list_of_favorites = post.getUsers_who_favorited();
+        if (list_of_favorites.contains(user)) {
+            return null;
+        } else {
+            list_of_favorites.add(user);
+            post.setUsers_who_favorited(list_of_favorites);
+            return postRepository.save(post);
+        }
+    }
+
+
 
     //get one post
     public Post getOnePost(Long id) {

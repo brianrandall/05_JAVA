@@ -172,6 +172,31 @@ public class ApiController {
         return new ResponseEntity<>("good", HttpStatus.OK);
     }
 
+    @PostMapping("/posts/{id}/favorite/{user_id}")
+    public Post addFavorite(
+        @PathVariable ("id") Post id,
+        @PathVariable ("user_id") User user_id
+        ) {
+        Long userId = (Long) user_id.getId();
+        Long postId = (Long) id.getId();
+        return postService.addFavorite(userId, postId);
+    }
+
+
+    // //add a favorite to a post
+    // public Post addFavorite(Long user_id, Long post_id) {
+    //     Post post = postRepository.findById(post_id).orElse(null);
+    //     User user = userRepository.findById(user_id).orElse(null);
+    //     List<User> list_of_favorites = post.getUsers_who_favorited();
+    //     if (list_of_favorites.contains(user)) {
+    //         return null;
+    //     } else {
+    //         list_of_favorites.add(user);
+    //         post.setUsers_who_favorited(list_of_favorites);
+    //         return postRepository.save(post);
+    //     }
+    // }
+
     @GetMapping("/posts/{username}")
     public List<Post> getPosts(
         @PathVariable("username") String username

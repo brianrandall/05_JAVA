@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "followings")
 public class UserFollowing {
 
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,6 +37,7 @@ public class UserFollowing {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
 
+    @JsonIgnore
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
 

@@ -47,7 +47,8 @@ const Feed = () => {
                                 {p.comments.length === 0 ? <span>comment</span> : null} 
                                 {p.comments.length > 1 ? <span>{p.comments.length} comments</span> : null} 
                             </Link>{' // '}
-                            {p.users_who_favorited.length > 0 ? <img src={liked} style={{marginBottom: '-5px', height: '17px'}} alt='liked' /> : <img src={like} style={{marginBottom: '-5px', height: '17px'}} alt='like'/> } </code>  
+                             {p.users_who_favorited.length > 0 ? <img src={liked} style={{marginBottom: '-5px', height: '17px'}} alt='liked' /> : <img src={like} style={{marginBottom: '-5px', height: '17px'}} alt='like'/> } 
+                            </code> 
                         </div>
                         <p>
                             <Linkify options={mention}>{p.content}</Linkify>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import Linkify from 'linkify-react'
 import 'linkify-plugin-mention'
@@ -13,6 +13,7 @@ const Profile = () => {
     const [post, setPost] = useState([])
     const [favorites, setFavorites] = useState([])
     const [comments, setComments] = useState([])
+    const nav = useNavigate()
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/posts/${username}`)
@@ -36,20 +37,21 @@ const Profile = () => {
         },
     }
 
-    const postHasLikes = () => {
-        if (favorites !== 0) {
-            return true
-        } else {
-            return false
-        }
-    }
+    // const postHasLikes = () => {
+    //     if (post.users_who_favorited !== 0) {
+    //         return true
+    //     } else {
+    //         return false
+    //     }
+    // }
 
     const likePost = (id) => {
-        axios.post(`http://localhost:8080/api/posts/like/${id}`, sessionStorage.getItem('id'))
+        axios.post(`http://localhost:8080/api/posts/${post.id}/favorite/${sessionStorage.getItem('id')}`)
         .then((res) => {
-            console.log(res.data)
+    
         })
         .catch((err) => console.log(err))
+        
     }
 
     const unlikePost = (id) => {
@@ -68,15 +70,17 @@ const Profile = () => {
                     
                     <div className='tweet' key={i}>
                         <div>
-                        <code style={{float: 'left', fontSize: 'small'}}>
-                            @{username}{' // '}
-                            {`${new Date(p.createdAt).toLocaleDateString('default', {day: 'numeric', year: 'numeric', month:'short'})} `}{' // '}
-                            <Link to={`/post/${username}/${p.id}`}>  
-                                {p.comments.length === 1 ? <span>{p.comments.length} comment</span> : null}
-                                {p.comments.length === 0 ? <span>comment</span> : null} 
-                                {p.comments.length > 1 ? <span>{p.comments.length} comments</span> : null} 
-                            </Link>{' // '}
-                            {postHasLikes() ? <img src={liked} style={{marginBottom: '-5px', height: '17px'}} alt='liked' /> : <img src={like} style={{marginBottom: '-5px', height: '17px'}} alt='like'/> } </code>  
+                            <code style={{float: 'left', fontSize: 'small'}}>
+                                @{username}{' // '}
+                                {`${new Date(p.createdAt).toLocaleDateString('default', {day: 'numeric', year: 'numeric', month:'short'})} `}{' // '}
+                                <Link to={`/post/${username}/${p.id}`}>  
+                                    {p.comments.length === 1 ? <span>{p.comments.length} comment</span> : null}
+                                    {p.comments.length === 0 ? <span>comment</span> : null} 
+                                    {p.comments.length > 1 ? <span>{p.comments.length} comments</span> : null} 
+                                </Link>{' // '}
+                                {p.users_who_favorited.length !==0 ? <img src={liked} style={{marginBottom: '-5px', height: '17px'}} alt='liked' /> : <img src={like} style={{marginBottom: '-5px', height: '17px'}} alt='like'/> } {p.users_who_favorited.length !==0 ? <span>{p.users_who_favorited.length}</span> : null}
+                                
+                            </code>  
                         </div>
                         <p>
                             <Linkify options={mention}>{p.content}</Linkify>

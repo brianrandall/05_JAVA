@@ -25,11 +25,11 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonRawValue;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "users")
@@ -80,7 +80,15 @@ public class User implements Serializable {
     @OneToMany(mappedBy="poster", fetch = FetchType.EAGER)
     private List<Post> posts;
 
+
+    // @ManyToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name="post_id")
+    // private Post favorited_posts;
+
    
+    @JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
     @ManyToMany(fetch = FetchType.LAZY)
         @JoinTable(
             name = "users_favorites",
@@ -188,13 +196,6 @@ public class User implements Serializable {
         this.posts = posts;
     }
 
-    public List<Post> getFavorited_posts() {
-        return favorited_posts;
-    }
-
-    public void setFavorited_posts(List<Post> favorited_posts) {
-        this.favorited_posts = favorited_posts;
-    }
 
     public String getPasswordConfirmation() {
         return passwordConfirmation;
@@ -219,6 +220,14 @@ public class User implements Serializable {
 
     public void setComments(List<PostComment> comments) {
         this.comments = comments;
+    }
+
+    public List<Post> getFavorited_posts() {
+        return favorited_posts;
+    }
+
+    public void setFavorited_posts(List<Post> favorited_posts) {
+        this.favorited_posts = favorited_posts;
     }
 
     
