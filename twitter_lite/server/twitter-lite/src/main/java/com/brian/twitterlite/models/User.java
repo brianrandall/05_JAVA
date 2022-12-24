@@ -97,6 +97,7 @@ public class User implements Serializable {
         )
     private List<Post> favorited_posts;
 
+    @JsonIgnoreProperties("user")
     @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
     private List<UserFollowing> followings;
 

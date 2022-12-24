@@ -18,7 +18,6 @@ function App() {
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="/profile/:id/edit" element={<EditProfile />} />
         <Route path="/post/:username/:id" element={<OnePost />} />
-
       </Routes>
     </div>
   );

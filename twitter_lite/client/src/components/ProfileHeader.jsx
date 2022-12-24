@@ -11,38 +11,43 @@ const ProfileHeader = () => {
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/users/username/${username}`)
+        
         .then((res) => {
             console.log(res.data)
             setUser(res.data)
             setFollowing(res.data.followings)
         })
         .catch((err) => console.log(err))
+        sessionStorage.getItem('loggedInUserFollowing')
     }, [])
 
     const follow = () => {
-        axios.post(`http://localhost:8080/api/users/follow/${user._id}`, sessionStorage.getItem('id'))
+        console.log(user.id)
+        axios.post(`http://localhost:8080/api/users/${sessionStorage.getItem('id')}/follows/new-follow`, {
+            followingId: user.id
+        }
+            )
         .then((res) => {
             console.log(res.data)   
         })
         .catch((err) => console.log(err))
     }
 
-    // const checkWhoIsLoggedIn = () => {
-    //     if (sessionStorage.getItem('id') != user.id) {
-    //         return true
-    //     } else {
-    //         return false
-    //     }
-    // }
+    const unfollow = () => {
+        axios.delete(`http://localhost:8080/api/users/${sessionStorage.getItem('id')}/follows/delete/${user.id}`)
+        .then((res) => {
+            console.log(res.data)
+        })
+        .catch((err) => console.log(err))
+    }
 
     const checkWhoIsLoggedIn = () => {
         if (sessionStorage.getItem('id') != user.id) {
-            return checkIfFollowing() ? <Link to={`/profile/${user._id}/following`}>Unfollow @{user.username}</Link> : <Link onClick={ follow }>Follow @{user.username}</Link>
+            return checkIfFollowing() ? <Link onClick={ unfollow}>Unfollow @{user.username}</Link> : <Link onClick={ follow }>Follow @{user.username}</Link>
         } else {
             return false
         }
     }
-
 
     const checkIfFollowing = () => {
         if (sessionStorage.getItem('loggedInUserFollowing').includes(user.id)) {

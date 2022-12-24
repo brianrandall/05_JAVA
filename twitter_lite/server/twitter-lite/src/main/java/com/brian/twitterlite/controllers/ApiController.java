@@ -5,11 +5,13 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,13 +20,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.brian.twitterlite.models.Post;
 import com.brian.twitterlite.models.PostComment;
 import com.brian.twitterlite.models.User;
+import com.brian.twitterlite.models.UserFollowing;
 import com.brian.twitterlite.models.UserLogin;
 import com.brian.twitterlite.services.PostCommentService;
 import com.brian.twitterlite.services.PostService;
+import com.brian.twitterlite.services.UserFollowingService;
 import com.brian.twitterlite.services.UserService;
 import com.github.javafaker.Faker;
 
@@ -35,10 +41,22 @@ public class ApiController {
     private final UserService userService;
     private final PostService postService;
     private final PostCommentService postCommentService;
-    public ApiController(UserService userService, PostService postService, PostCommentService postCommentService) {
+    private final UserFollowingService userFollowingService;
+    public ApiController(UserService userService, PostService postService, PostCommentService postCommentService, UserFollowingService userFollowingService) {
         this.userService = userService;
         this.postService = postService;
         this.postCommentService = postCommentService;
+        this.userFollowingService = userFollowingService;
+    }
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+            }
+        };
+    
     }
 
     @GetMapping("/users/email/{email}")
@@ -158,6 +176,29 @@ public class ApiController {
         return new ResponseEntity<>("good", HttpStatus.OK);
     }
 
+    @PostMapping("/users/{id}/follows/new-follow")
+    public ResponseEntity<String> followNewUser(
+        @RequestBody UserFollowing newFollow,
+        @PathVariable ("id") User id)
+        {
+        newFollow.setUser(id);
+        userFollowingService.createFollow(newFollow); 
+
+        return new ResponseEntity<>("good", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/users/{id}/follows/delete/{follow_id}")
+    public ResponseEntity<String> unfollowUser(
+        @PathVariable ("id") Long id,
+        @PathVariable ("follow_id") Long follow_id,
+        Model model
+        ) {
+        Long thing = userFollowingService.find(id, follow_id);
+        userFollowingService.deleteFollow(thing);
+        return new ResponseEntity<>("good", HttpStatus.OK);
+    }
+
+
     @PostMapping("/posts/{id}/comment")
     public ResponseEntity<String> createComment(
         @PathVariable ("id") Post id,
@@ -172,6 +213,8 @@ public class ApiController {
         return new ResponseEntity<>("good", HttpStatus.OK);
     }
 
+    
+
     @PostMapping("/posts/{id}/favorite/{user_id}")
     public Post addFavorite(
         @PathVariable ("id") Post id,
@@ -182,6 +225,59 @@ public class ApiController {
         return postService.addFavorite(userId, postId);
     }
 
+    @PutMapping("/users/edit/{id}")
+    public User editUser(
+    @PathVariable ("id") User id,
+    @RequestBody User editUserData
+    )
+    {
+        Long userId = (Long) id.getId();
+        userService.findUserById(userId);
+        User existingUserData = userService.findUserById(userId);
+        User editUser = userService.findUserById(userId);
+        editUser.setFirstName(editUserData.getFirstName());
+        editUser.setLastName(editUserData.getLastName());
+        editUser.setUsername(editUserData.getUsername());
+        editUser.setBio(editUserData.getBio());
+        editUser.setLocation(editUserData.getLocation());
+        editUser.setEmail(editUserData.getEmail());
+        if (editUserData.getPassword() != null) {
+            editUser.setPassword(existingUserData.getPassword());
+            editUser.setPasswordConfirmation(existingUserData.getPasswordConfirmation());
+        }
+        editUser.setPassword(editUserData.getPassword());
+        if (editUserData.getPasswordConfirmation() != null) {
+            editUser.setPassword(existingUserData.getPassword());
+            editUser.setPasswordConfirmation(existingUserData.getPasswordConfirmation());
+        }
+        editUser.setPasswordConfirmation(editUserData.getPasswordConfirmation());
+        return userService.registerUser(editUser);
+    }
+
+    
+
+    // @PostMapping("/posts/{id}/comment")
+    // public ResponseEntity<String> createComment(
+    //     @PathVariable ("id") Post id,
+    //     @RequestBody PostComment newComment,
+    //     BindingResult result
+    //     ) {
+    //     if(result.hasErrors()) {
+    //         return new ResponseEntity<>("bad", HttpStatus.BAD_REQUEST);
+    //     }
+    //     newComment.setPost(id);
+    //     postCommentService.createComment(newComment);
+    //     return new ResponseEntity<>("good", HttpStatus.OK);
+    // }
+
+
+
+    // public User registerUser(User user) {
+    //     String hashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+    //     user.setPassword(hashed);
+    //     user.setAdmin(false);
+    //     return userRepository.save(user);
+    // }
 
     // //add a favorite to a post
     // public Post addFavorite(Long user_id, Long post_id) {

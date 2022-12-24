@@ -14,4 +14,7 @@ public interface UserFollowingRepository extends CrudRepository<UserFollowing, L
     List<UserFollowing> findAll();
     @Query(value="SELECT * FROM id WHERE user_id = ?1", nativeQuery=true)
     List<Post> findByUser(Long id);
+
+    @Query(value="select * from followings where user_id = ?1 && following_id = ?2", nativeQuery=true)
+    Long find(Long user_id, Long following_id);
 }

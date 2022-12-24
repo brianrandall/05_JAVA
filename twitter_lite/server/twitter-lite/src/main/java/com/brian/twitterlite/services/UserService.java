@@ -43,6 +43,16 @@ public class UserService {
 		return existingUser;
     }
 
+    //add a follow to a user
+    // public User addFollow(Long user_id, Long follow_id) {
+    //     User user = userRepository.findById(user_id).orElse(null);
+    //     User follow = userRepository.findById(follow_id).orElse(null);
+    //     UserFollowing newFollow = new UserFollowing();
+    //     newFollow.setUser(user);
+    //     newFollow.setFollowingId(follow_id);
+    //     return null;
+    //     }
+
 
     //get user by email, if not found return null
     public User getUser(String email) {

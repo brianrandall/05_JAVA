@@ -11,6 +11,7 @@ import { render } from '@testing-library/react'
 const Profile = () => {
     const {username} = useParams()
     const [post, setPost] = useState([])
+    const [postId, setPostId] = useState('')
     const [favorites, setFavorites] = useState([])
     const [comments, setComments] = useState([])
     const nav = useNavigate()
@@ -22,7 +23,6 @@ const Profile = () => {
             setPost(res.data)
             setFavorites(res.data.users_who_favorited)
             setComments(res.data.comments)
-            
         })
         .catch((err) => console.log(err))
     }, [])
@@ -37,20 +37,14 @@ const Profile = () => {
         },
     }
 
-    // const postHasLikes = () => {
-    //     if (post.users_who_favorited !== 0) {
-    //         return true
-    //     } else {
-    //         return false
-    //     }
-    // }
-
-    const likePost = (id) => {
-        axios.post(`http://localhost:8080/api/posts/${post.id}/favorite/${sessionStorage.getItem('id')}`)
-        .then((res) => {
+    const likePost = () => {
+        console.log();
+        console.log(sessionStorage.getItem('id'));
+        // axios.post(`http://localhost:8080/api/posts/${post.id}/favorite/${sessionStorage.getItem('id')}`)
+        // .then((res) => {
     
-        })
-        .catch((err) => console.log(err))
+        // })
+        // .catch((err) => console.log(err))
         
     }
 
@@ -78,7 +72,8 @@ const Profile = () => {
                                     {p.comments.length === 0 ? <span>comment</span> : null} 
                                     {p.comments.length > 1 ? <span>{p.comments.length} comments</span> : null} 
                                 </Link>{' // '}
-                                {p.users_who_favorited.length !==0 ? <img src={liked} style={{marginBottom: '-5px', height: '17px'}} alt='liked' /> : <img src={like} style={{marginBottom: '-5px', height: '17px'}} alt='like'/> } {p.users_who_favorited.length !==0 ? <span>{p.users_who_favorited.length}</span> : null}
+                                {p.users_who_favorited.length !==0 ? <img src={liked} style={{marginBottom: '-5px', height: '17px'}} alt='liked' /> : <img src={like} style={{marginBottom: '-5px', height: '17px'}} alt='like'/> } {p.users_who_favorited.length !==0 ? <span>{p.users_who_favorited.length}</span> : null} 
+                                <button onClick={ likePost }></button>
                                 
                             </code>  
                         </div>
