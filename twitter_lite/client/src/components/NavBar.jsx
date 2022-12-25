@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import arrow from '../components/img/arrow100.png'
@@ -10,13 +10,12 @@ const [firstName, setFirstName] = useState('')
 const [id, setId] = useState('')
 
 const logout = () => {
-    sessionStorage.removeItem('loggedIn')
-    sessionStorage.removeItem('id')
-    sessionStorage.removeItem('loggedInUsername')
+    //clear the session storage
+    sessionStorage.clear()
     //refresh the page
     window.location.href = '/'
 }
-
+useEffect(() => {
 axios.get(`http://localhost:8080/api/users/email/${sessionStorage.getItem('loggedIn')}`)
     .then((res) => {
         console.log(res.data)
@@ -25,10 +24,14 @@ axios.get(`http://localhost:8080/api/users/email/${sessionStorage.getItem('logge
         setId(res.data.id)
         sessionStorage.setItem('id', res.data.id)
         sessionStorage.setItem('loggedInUsername', res.data.username)
-        sessionStorage.setItem('loggedInUserFollowing', JSON.stringify(res.data.followings))        
+        sessionStorage.setItem('loggedInUserFollowing', JSON.stringify(res.data.followings))
+        sessionStorage.setItem('favorites', (res.data.favorited_posts))      
     })
     .catch((err) => console.log(err))
+}, [sessionStorage.getItem('loggedIn')])
 
+console.log(sessionStorage.getItem('favorites'))
+console.log(sessionStorage.getItem('loggedInUserFollowing'))
 
 return (
 <div id='nav'>

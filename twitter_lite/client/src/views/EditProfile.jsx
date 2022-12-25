@@ -5,6 +5,9 @@ import ProfileEdit from '../components/ProfileEdit'
 
 const EditProfile = () => {
 
+  if (sessionStorage.getItem('id') === null) {
+    window.location.href = '/'
+ }
 
 
   return (

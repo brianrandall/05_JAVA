@@ -18,7 +18,6 @@ const ProfileHeader = () => {
             setFollowing(res.data.followings)
         })
         .catch((err) => console.log(err))
-        sessionStorage.getItem('loggedInUserFollowing')
     }, [])
 
     const follow = () => {
@@ -51,12 +50,12 @@ const ProfileHeader = () => {
 
     const checkIfFollowing = () => {
         if (sessionStorage.getItem('loggedInUserFollowing').includes(user.id)) {
-            return 'following'
+            return true
         } else {
             return false
         }
     }
-            
+    console.log(sessionStorage.getItem('loggedInUserFollowing'))
   return (
     <div id='profile-header'>
         <span>{user.firstName} {user.lastName}</span>
@@ -69,8 +68,6 @@ const ProfileHeader = () => {
             <span >Joined {`${new Date(user.createdAt).toLocaleDateString('default', {day: 'numeric', year: 'numeric', month:'short'})} `}</span>
         </div>
         <span>
-        {/* {checkWhoIsLoggedIn() ? <Link onClick={ follow }>Follow @{user.username}</Link> : null} */}
-        {/* {checkIfFollowing() ? <Link to={`/profile/${user._id}/following`}>Following</Link> : null} */}
         {checkWhoIsLoggedIn()}
         </span>
         <span>

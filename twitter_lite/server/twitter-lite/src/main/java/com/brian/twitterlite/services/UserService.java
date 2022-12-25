@@ -7,18 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import com.brian.twitterlite.models.User;
-import com.brian.twitterlite.models.UserFollowing;
 import com.brian.twitterlite.models.UserLogin;
-import com.brian.twitterlite.repositories.PostRepository;
-import com.brian.twitterlite.repositories.UserFollowingRepository;
 import com.brian.twitterlite.repositories.UserRepository;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final PostRepository postRepository;
-    public UserService(UserRepository userRepository, PostRepository postRepository) {
-        this.postRepository = postRepository;
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -90,25 +85,10 @@ public class UserService {
         userToUpdate.setLastName(user.getLastName());
         userToUpdate.setUsername(user.getUsername());
         userToUpdate.setEmail(user.getEmail());
-        userToUpdate.setPassword(user.getPassword());
+        userToUpdate.setBio(user.getBio());
+        userToUpdate.setLocation(user.getLocation());
         userToUpdate.setAdmin(user.getAdmin());
         return userRepository.save(userToUpdate);
-    }
-
-    //add follower to user
-    public User addFollower(User user_id, Long follower_id) {
-        User user = userRepository.findByIdIs(user_id.getId());
-        UserFollowing follow = new UserFollowing();
-        follow.setFollowingId(follower_id);
-        follow.setUser(user_id);
-        List<UserFollowing> list_of_followers = user.getFollowings();
-        if (list_of_followers.contains(user) && list_of_followers.contains(follow)) {
-            return null;
-        } else {
-            list_of_followers.add(follow);
-            user.setFollowings(list_of_followers);
-            return userRepository.save(user);
-        }
     }
 
     //delete user

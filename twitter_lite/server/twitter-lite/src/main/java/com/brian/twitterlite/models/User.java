@@ -25,9 +25,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -73,7 +71,7 @@ public class User implements Serializable {
     private String password;
 
     @Transient
-    @NotBlank(message="passwords do not match!")
+    // @NotBlank(message="passwords do not match!")
     private String passwordConfirmation;
 
     @JsonIgnoreProperties("poster")

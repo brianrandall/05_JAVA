@@ -4,18 +4,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.brian.twitterlite.models.User;
 import com.brian.twitterlite.models.UserFollowing;
 import com.brian.twitterlite.repositories.UserFollowingRepository;
-import com.brian.twitterlite.repositories.UserRepository;
 
 @Service
 public class UserFollowingService {
     private final UserFollowingRepository userFollowingRepository;
-    private final UserRepository userRepository;
-    public UserFollowingService(UserFollowingRepository userFollowingRepository, UserRepository userRepository) {
+    public UserFollowingService(UserFollowingRepository userFollowingRepository) {
         this.userFollowingRepository = userFollowingRepository;
-        this.userRepository = userRepository;
     }
 
     //create a 

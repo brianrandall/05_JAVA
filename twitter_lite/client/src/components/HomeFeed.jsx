@@ -10,15 +10,17 @@ const Feed = () => {
 
   const id =  sessionStorage.getItem('id')
   const [post, setPost] = useState([])
+  const [favoritedBy, setFavoritedBy] = useState([])
   
   useEffect(() => {
   axios.get(`http://localhost:8080/api/posts/all/${id}/following`)
   .then((res) => {
       setPost(res.data)
+      setFavoritedBy(res.data.users_who_favorited)
       console.log(post)
   })
   .catch((err) => console.log(err))
-  }, [])
+  }, [id])
 
   const mention = {
     formatHref: {
@@ -46,6 +48,8 @@ const Feed = () => {
         .catch((err) => console.log(err))
     }
 
+    
+
   return (
     <div>
       <div className='tweets'>
@@ -63,14 +67,13 @@ const Feed = () => {
                                 {p.comments.length === 0 ? <span>comment</span> : null} 
                                 {p.comments.length > 1 ? <span>{p.comments.length} comments</span> : null} 
                             </Link>{' // '}
-                             {p.users_who_favorited.length > 0 ? <img src={liked} style={{marginBottom: '-5px', height: '17px'}} alt='liked' /> : <img src={like} style={{marginBottom: '-5px', height: '17px'}} alt='like'/> } {p.users_who_favorited.length !==0 ? <span>{p.users_who_favorited.length}</span> : null}
+                             {sessionStorage.getItem('favorites').includes(p.id) ? <img src={liked} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => unlikePost(p.id)} /> : <img src={like} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => likePost(p.id)} />}
+                             {p.users_who_favorited.length > 0 ? <span> {p.users_who_favorited.length}</span> : null}
                             </code> 
                         </div>
                         <p>
                             <Linkify options={mention}>{p.content}</Linkify>
                         </p>
-                        <button onClick={() => likePost(p.id)}>Like</button>
-                        <button onClick={() => unlikePost(p.id)}>Unlike</button>
                     </div>
                 )
 

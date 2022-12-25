@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -242,33 +243,30 @@ public class ApiController {
     }
 
     @PutMapping("/users/edit/{id}")
-    public User editUser(
-    @PathVariable ("id") User id,
+    public ResponseEntity<String> editUser(
+    @PathVariable ("id") Long id,
     @RequestBody User editUserData
     )
     {
-        Long userId = (Long) id.getId();
-        userService.findUserById(userId);
-        User existingUserData = userService.findUserById(userId);
-        User editUser = userService.findUserById(userId);
+        System.out.println(editUserData);
+        String hashPW = BCrypt.hashpw(editUserData.getPassword(), BCrypt.gensalt());
+        User editUser = userService.findUserById(id);
+        if (editUserData.getPassword() != "") {
+            editUser.setPassword(hashPW);
+        }
         editUser.setFirstName(editUserData.getFirstName());
         editUser.setLastName(editUserData.getLastName());
         editUser.setUsername(editUserData.getUsername());
         editUser.setBio(editUserData.getBio());
         editUser.setLocation(editUserData.getLocation());
         editUser.setEmail(editUserData.getEmail());
-        if (editUserData.getPassword() != null) {
-            editUser.setPassword(existingUserData.getPassword());
-            editUser.setPasswordConfirmation(existingUserData.getPasswordConfirmation());
-        }
-        editUser.setPassword(editUserData.getPassword());
-        if (editUserData.getPasswordConfirmation() != null) {
-            editUser.setPassword(existingUserData.getPassword());
-            editUser.setPasswordConfirmation(existingUserData.getPasswordConfirmation());
-        }
-        editUser.setPasswordConfirmation(editUserData.getPasswordConfirmation());
-        return userService.registerUser(editUser);
+        
+        userService.updateUser(editUser);
+    
+        return new ResponseEntity<>("good", HttpStatus.OK);
     }
+
+    
 
     
 

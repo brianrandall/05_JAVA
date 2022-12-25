@@ -4,9 +4,12 @@ import NewPost from '../components/NewPost'
 import Feed from '../components/HomeFeed'
 import Search from '../components/Search'
 
+
 const Home = () => {
 
-
+if (sessionStorage.getItem('loggedIn') === null) {
+   window.location.href = '/'
+}
 
   return (
     <div id='home'>

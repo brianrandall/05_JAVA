@@ -11,6 +11,7 @@ import { render } from '@testing-library/react'
 const Profile = () => {
     const {username} = useParams()
     const [post, setPost] = useState([])
+    const [postFavorites, setPostFavorites] = useState([])
     const nav = useNavigate()
 
     useEffect(() => {
@@ -18,6 +19,7 @@ const Profile = () => {
         .then((res) => {
             console.log(res.data)
             setPost(res.data)
+            setPostFavorites(res.data.users_who_favorited)
         })
         .catch((err) => console.log(err))
     }, [])
@@ -32,24 +34,21 @@ const Profile = () => {
         },
     }
 
-    const likePost = () => {
-        console.log();
-        console.log(sessionStorage.getItem('id'));
-        // axios.post(`http://localhost:8080/api/posts/${post.id}/favorite/${sessionStorage.getItem('id')}`)
-        // .then((res) => {
-    
-        // })
-        // .catch((err) => console.log(err))
-        
-    }
-
-    const unlikePost = (id) => {
-        axios.post(`http://localhost:8080/api/posts/unlike/${id}`, sessionStorage.getItem('id'))
+    const likePost = (id) => {
+        axios.post(`http://localhost:8080/api/posts/${id}/favorite/${sessionStorage.getItem('id')}`)
         .then((res) => {
             console.log(res.data)
         })
         .catch((err) => console.log(err))
-    }
+        }
+    
+        const unlikePost = (id) => {
+            axios.delete(`http://localhost:8080/api/posts/${id}/favorite/${sessionStorage.getItem('id')}`)
+            .then((res) => {
+                console.log(res.data)
+            })
+            .catch((err) => console.log(err))
+        }
 
     return (
     <div>
@@ -67,8 +66,8 @@ const Profile = () => {
                                     {p.comments.length === 0 ? <span>comment</span> : null} 
                                     {p.comments.length > 1 ? <span>{p.comments.length} comments</span> : null} 
                                 </Link>{' // '}
-                                {p.users_who_favorited.length !==0 ? <img src={liked} style={{marginBottom: '-5px', height: '17px'}} alt='liked' /> : <img src={like} style={{marginBottom: '-5px', height: '17px'}} alt='like'/> } {p.users_who_favorited.length !==0 ? <span>{p.users_who_favorited.length}</span> : null} 
-                                <button onClick={ likePost }></button>
+                                {sessionStorage.getItem('favorites').includes(p.id) ? <img src={liked} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => unlikePost(p.id)} /> : <img src={like} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => likePost(p.id)} />}
+                             {p.users_who_favorited.length > 0 ? <span> {p.users_who_favorited.length}</span> : null}
                                 
                             </code>  
                         </div>

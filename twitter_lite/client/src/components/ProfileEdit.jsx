@@ -34,23 +34,19 @@ const ProfileEdit = () => {
         .catch((err) => console.log(err))
     }, [id])
 
+
     const updateUser = (e) => {
         e.preventDefault()
 
-        const editUser = {
-            id,
-            firstName,
+
+        axios.put(`http://localhost:8080/api/users/edit/${id}`,
+            {firstName,
             lastName,
-            username,
             email,
+            username,
             bio,
-            location
-        }
-
-        console.log(editUser)
-
-        axios.put(`http://localhost:8080/api/users/${id}`,
-            {editUser}
+            location,
+            password}
         )
         .then((res) => {
             console.log(res.data)
@@ -85,7 +81,7 @@ const ProfileEdit = () => {
     <hr/>
     {checkIfLoggedIn() ? <div>
         <form className='editForm' onSubmit={updateUser}>
-            <div class='row'>
+            <div className='row'>
                 <div>
                     <p>First Name</p>
                     <input type={'text'} value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
@@ -105,7 +101,7 @@ const ProfileEdit = () => {
                 </p>
                 <textarea value={bio} rows={'4'} cols={'58'} style={{resize: 'none'}} onChange={(e) => setBio(e.target.value)}/>
             </div>
-            <div class='row'>
+            <div className='row'>
                 <div>
                     <p>Location</p>
                     <textarea value={location} rows={'1'} cols={'25'} style={{resize: 'none'}} onChange={(e) => setLocation(e.target.value)}/>
@@ -115,24 +111,25 @@ const ProfileEdit = () => {
                     <textarea value={email} rows={'1'} cols={'26'} style={{resize: 'none'}} onChange={(e) => setEmail(e.target.value)}/>
                     </div>
             </div>
-            <div class='row'>
+            <div className='row'>
                 <div>
                     <p>Member Since</p>
                     <input type={'text'} value={`${new Date(user.createdAt).toLocaleDateString('default', {day: 'numeric', year: 'numeric', month:'short'})} `} disabled/>
                 </div>
                 <div>
                     <p>New Password</p>
-                    <input type={'password'} value={password}  onChange={(e) => setPassword(e.target.value)}/>
+                    <input type={'password'} value={password}  onChange={(e) => setPassword(e.target.value) }/>
                 </div>
                 <div>
                     <p>New Password x2</p>
                     <input type={'password'} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
                 </div>
             </div>
-            <div class='editForm'>
+            <div className='editForm'>
                 <span>error 1 // if no errors, submit button</span>
                 <button type={'submit'}>Update</button>
             </div>
+            {password === confirmPassword ? <span>ok</span> : null}
         </form>
     </div> : null}
     </div>
