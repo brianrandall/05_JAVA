@@ -11,9 +11,6 @@ import { render } from '@testing-library/react'
 const Profile = () => {
     const {username} = useParams()
     const [post, setPost] = useState([])
-    const [postId, setPostId] = useState('')
-    const [favorites, setFavorites] = useState([])
-    const [comments, setComments] = useState([])
     const nav = useNavigate()
 
     useEffect(() => {
@@ -21,8 +18,6 @@ const Profile = () => {
         .then((res) => {
             console.log(res.data)
             setPost(res.data)
-            setFavorites(res.data.users_who_favorited)
-            setComments(res.data.comments)
         })
         .catch((err) => console.log(err))
     }, [])

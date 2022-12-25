@@ -80,11 +80,6 @@ public class User implements Serializable {
     @OneToMany(mappedBy="poster", fetch = FetchType.EAGER)
     private List<Post> posts;
 
-
-    // @ManyToOne(fetch = FetchType.EAGER)
-    // @JoinColumn(name="post_id")
-    // private Post favorited_posts;
-
    
     @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,

@@ -181,6 +181,12 @@ public class ApiController {
         @RequestBody UserFollowing newFollow,
         @PathVariable ("id") User id)
         {
+        List<UserFollowing> follows = userFollowingService.allFollows();
+        for (UserFollowing follow : follows) {
+            if(follow.getUser().getId() == id.getId() && follow.getFollowingId() == newFollow.getFollowingId()) {
+                return new ResponseEntity<>("bad", HttpStatus.BAD_REQUEST);
+            }
+        }
         newFollow.setUser(id);
         userFollowingService.createFollow(newFollow); 
 
@@ -223,6 +229,16 @@ public class ApiController {
         Long userId = (Long) user_id.getId();
         Long postId = (Long) id.getId();
         return postService.addFavorite(userId, postId);
+    }
+
+    @DeleteMapping("/posts/{id}/favorite/{user_id}")
+    public Post removeFavorite(
+        @PathVariable ("id") Post id,
+        @PathVariable ("user_id") User user_id
+        ) {
+        Long userId = (Long) user_id.getId();
+        Long postId = (Long) id.getId();
+        return postService.removeFavorite(userId, postId);
     }
 
     @PutMapping("/users/edit/{id}")

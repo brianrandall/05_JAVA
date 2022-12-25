@@ -30,6 +30,22 @@ const Feed = () => {
     return new Date(b.createdAt) - new Date(a.createdAt)
   })
 
+  const likePost = (id) => {
+    axios.post(`http://localhost:8080/api/posts/${id}/favorite/${sessionStorage.getItem('id')}`)
+    .then((res) => {
+        console.log(res.data)
+    })
+    .catch((err) => console.log(err))
+    }
+
+    const unlikePost = (id) => {
+        axios.delete(`http://localhost:8080/api/posts/${id}/favorite/${sessionStorage.getItem('id')}`)
+        .then((res) => {
+            console.log(res.data)
+        })
+        .catch((err) => console.log(err))
+    }
+
   return (
     <div>
       <div className='tweets'>
@@ -53,7 +69,8 @@ const Feed = () => {
                         <p>
                             <Linkify options={mention}>{p.content}</Linkify>
                         </p>
-                        
+                        <button onClick={() => likePost(p.id)}>Like</button>
+                        <button onClick={() => unlikePost(p.id)}>Unlike</button>
                     </div>
                 )
 
