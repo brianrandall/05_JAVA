@@ -24,7 +24,6 @@ axios.get(`http://localhost:8080/api/users/email/${sessionStorage.getItem('logge
         setId(res.data.id)
         sessionStorage.setItem('id', res.data.id)
         sessionStorage.setItem('loggedInUsername', res.data.username)
-        sessionStorage.setItem('loggedInUserFollowing', JSON.stringify(res.data.followings))
         sessionStorage.setItem('favorites', (res.data.favorited_posts))      
     })
     .catch((err) => console.log(err))

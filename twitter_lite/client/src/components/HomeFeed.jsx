@@ -8,19 +8,18 @@ import liked from '../components/img/liked-icon.png'
 
 const Feed = () => {
 
-  const id =  sessionStorage.getItem('id')
+  const id =  parseInt(sessionStorage.getItem('id'))
   const [post, setPost] = useState([])
-  const [favoritedBy, setFavoritedBy] = useState([])
+  const [action, setAction] = useState(false)
   
   useEffect(() => {
   axios.get(`http://localhost:8080/api/posts/all/${id}/following`)
   .then((res) => {
       setPost(res.data)
-      setFavoritedBy(res.data.users_who_favorited)
       console.log(post)
   })
   .catch((err) => console.log(err))
-  }, [id])
+  }, [id, action])
 
   const mention = {
     formatHref: {
@@ -36,6 +35,7 @@ const Feed = () => {
     axios.post(`http://localhost:8080/api/posts/${id}/favorite/${sessionStorage.getItem('id')}`)
     .then((res) => {
         console.log(res.data)
+        setAction(!action)
     })
     .catch((err) => console.log(err))
     }
@@ -44,11 +44,11 @@ const Feed = () => {
         axios.delete(`http://localhost:8080/api/posts/${id}/favorite/${sessionStorage.getItem('id')}`)
         .then((res) => {
             console.log(res.data)
+            setAction(!action)
         })
         .catch((err) => console.log(err))
     }
 
-    
 
   return (
     <div>
@@ -67,7 +67,8 @@ const Feed = () => {
                                 {p.comments.length === 0 ? <span>comment</span> : null} 
                                 {p.comments.length > 1 ? <span>{p.comments.length} comments</span> : null} 
                             </Link>{' // '}
-                             {sessionStorage.getItem('favorites').includes(p.id) ? <img src={liked} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => unlikePost(p.id)} /> : <img src={like} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => likePost(p.id)} />}
+
+                             {p.users_who_favorited.includes(id) ? <img src={liked} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => unlikePost(p.id)} /> : <img src={like} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => likePost(p.id)} />}
                              {p.users_who_favorited.length > 0 ? <span> {p.users_who_favorited.length}</span> : null}
                             </code> 
                         </div>

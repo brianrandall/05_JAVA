@@ -1,28 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Linkify from 'linkify-react'
 import 'linkify-plugin-mention'
 import { Link } from 'react-router-dom'
 import like from '../components/img/like-icon.png'
 import liked from '../components/img/liked-icon.png'
-import { render } from '@testing-library/react'
 
 const Profile = () => {
     const {username} = useParams()
     const [post, setPost] = useState([])
-    const [postFavorites, setPostFavorites] = useState([])
-    const nav = useNavigate()
+    const [action, setAction] = useState(false)
+    const id = parseInt(sessionStorage.getItem('id'))
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/posts/${username}`)
         .then((res) => {
             console.log(res.data)
             setPost(res.data)
-            setPostFavorites(res.data.users_who_favorited)
         })
         .catch((err) => console.log(err))
-    }, [])
+    }, [action])
 
     post.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt)
@@ -38,6 +36,7 @@ const Profile = () => {
         axios.post(`http://localhost:8080/api/posts/${id}/favorite/${sessionStorage.getItem('id')}`)
         .then((res) => {
             console.log(res.data)
+            setAction(!action)
         })
         .catch((err) => console.log(err))
         }
@@ -46,6 +45,7 @@ const Profile = () => {
             axios.delete(`http://localhost:8080/api/posts/${id}/favorite/${sessionStorage.getItem('id')}`)
             .then((res) => {
                 console.log(res.data)
+                setAction(!action)
             })
             .catch((err) => console.log(err))
         }
@@ -66,7 +66,7 @@ const Profile = () => {
                                     {p.comments.length === 0 ? <span>comment</span> : null} 
                                     {p.comments.length > 1 ? <span>{p.comments.length} comments</span> : null} 
                                 </Link>{' // '}
-                                {sessionStorage.getItem('favorites').includes(p.id) ? <img src={liked} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => unlikePost(p.id)} /> : <img src={like} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => likePost(p.id)} />}
+                                {p.users_who_favorited.includes(id) ? <img src={liked} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => unlikePost(p.id)} /> : <img src={like} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => likePost(p.id)} />}
                              {p.users_who_favorited.length > 0 ? <span> {p.users_who_favorited.length}</span> : null}
                                 
                             </code>  

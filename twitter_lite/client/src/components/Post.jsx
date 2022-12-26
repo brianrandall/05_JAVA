@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Linkify from 'linkify-react'
 import 'linkify-plugin-mention'
@@ -12,9 +12,11 @@ export const Post = () => {
     const [post, setPost] = useState([])
     const [comments, setComments] = useState([])
     const [content, setContent] = useState('')
+    const loggedInId = parseInt(useState(sessionStorage.getItem('id')))
+    const [action, setAction] = useState(false)
     const [favorites, setFavorites] = useState([])
 
-    const nav = useNavigate()
+    
     useEffect(() => {
         axios.get(`http://localhost:8080/api/posts/one/${id}`)
         .then((res) => {
@@ -23,7 +25,7 @@ export const Post = () => {
             setFavorites(res.data.users_who_favorited)
         })
         .catch((err) => console.log(err))
-    }, [comments])
+    }, [comments, action])
 
     const addComment = (e) => {
         e.preventDefault()
@@ -46,21 +48,24 @@ export const Post = () => {
         },
     }
 
-    const postHasLikes = () => {
-        if (favorites !== 0) {
-            return true
-        } else {
-            return false
+    const likePost = (id) => {
+        axios.post(`http://localhost:8080/api/posts/${id}/favorite/${sessionStorage.getItem('id')}`)
+        .then((res) => {
+            console.log(res.data)
+            setAction(!action)
+        })
+        .catch((err) => console.log(err))
         }
-    }
+    
+        const unlikePost = (id) => {
+            axios.delete(`http://localhost:8080/api/posts/${id}/favorite/${sessionStorage.getItem('id')}`)
+            .then((res) => {
+                console.log(res.data)
+                setAction(!action)
+            })
+            .catch((err) => console.log(err))
+        }
 
-    favorites.map((favorite) => {
-        if (favorite.username === sessionStorage.getItem('loggedInUsername')) {
-            return true
-        } else {
-            return false
-        }
-    })
 
     comments.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt)
@@ -119,6 +124,7 @@ export const Post = () => {
         return Math.floor(seconds) + " seconds ago";
       }
   
+      
     return (
     <div>
         <div className='tweets'>
@@ -129,10 +135,11 @@ export const Post = () => {
                     {`${new Date(post.createdAt).toLocaleDateString('default', {day: 'numeric', year: 'numeric', month:'short'})} `}{ ' // ' }
                     <Link to={`/post/${post.id}`}>
                         {comments.length === 0 ? <span>comment</span> : null}
-                        {comments.length == 1 ? <span>{comments.length} comment</span> : null}
+                        {comments.length === 1 ? <span>{comments.length} comment</span> : null}
                         {comments.length > 1 ? <span>{comments.length} comments</span> : null}
                     </Link>{ ' // ' }
-                    {postHasLikes() ? <img src={liked} style={{marginBottom: '-5px', height: '17px'}} alt='liked' /> : <img src={like} style={{marginBottom: '-5px', height: '17px'}} alt='like'/> }
+                    {favorites.includes(loggedInId) ? <img src={liked} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => unlikePost(post.id)} /> : <img src={like} style={{marginBottom: '-5px', height: '17px', cursor: 'pointer'}} alt='like' onClick={() => likePost(post.id)} />}
+                    {favorites.length > 0 ? <span> {favorites.length}</span> : null}
                 </code>  
                 </div>
                 <p>

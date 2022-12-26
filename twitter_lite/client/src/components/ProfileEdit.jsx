@@ -70,8 +70,8 @@ const ProfileEdit = () => {
         {user.bio ? <p style={{fontStyle: 'oblique', float: 'left', fontSize: 'small'}}>{bio} </p> : null}
         <div style={{fontSize: 'x-small'}}>
         <img src={loc} style={{filter: 'invert(.9)'}} height='10px' alt='loc'/>
-            {location ?  <span>{location}</span> : null} // 
-            <img src={cal} style={{filter: 'invert(.9)', marginRight: '3px'}} height='10px'/>
+            {location ?  <span>{location}</span> : null}{' // '} 
+            <img src={cal} style={{filter: 'invert(.9)', marginRight: '3px'}} height='10px' alt='cal'/>
             <span >Joined {`${new Date(user.createdAt).toLocaleDateString('default', {day: 'numeric', year: 'numeric', month:'short'})} `}</span>
         </div>
         <span>

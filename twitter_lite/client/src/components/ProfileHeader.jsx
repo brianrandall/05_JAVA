@@ -8,6 +8,8 @@ const ProfileHeader = () => {
     const {username} = useParams()
     const [user, setUser] = useState([])
     const [following, setFollowing] = useState([])
+    const [loggedInUserFollowing, setLoggedInUserFollowing] = useState([])
+    const [action, setAction] = useState(false)
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/users/username/${username}`)
@@ -18,16 +20,24 @@ const ProfileHeader = () => {
             setFollowing(res.data.followings)
         })
         .catch((err) => console.log(err))
-    }, [])
+
+        axios.get(`http://localhost:8080/api/users/${sessionStorage.getItem('id')}`)
+        .then((res) => {
+            console.log(res.data)
+            setLoggedInUserFollowing(JSON.stringify(res.data.followings))
+        })
+        .catch((err) => console.log(err))
+
+    }, [action])
 
     const follow = () => {
         console.log(user.id)
         axios.post(`http://localhost:8080/api/users/${sessionStorage.getItem('id')}/follows/new-follow`, {
             followingId: user.id
-        }
-            )
+        })
         .then((res) => {
-            console.log(res.data)   
+            console.log(res.data)
+            setAction(!action)
         })
         .catch((err) => console.log(err))
     }
@@ -36,6 +46,7 @@ const ProfileHeader = () => {
         axios.delete(`http://localhost:8080/api/users/${sessionStorage.getItem('id')}/follows/delete/${user.id}`)
         .then((res) => {
             console.log(res.data)
+            setAction(!action)
         })
         .catch((err) => console.log(err))
     }
@@ -49,13 +60,13 @@ const ProfileHeader = () => {
     }
 
     const checkIfFollowing = () => {
-        if (sessionStorage.getItem('loggedInUserFollowing').includes(user.id)) {
+        if (loggedInUserFollowing.includes(user.id)) {
             return true
         } else {
             return false
         }
     }
-    console.log(sessionStorage.getItem('loggedInUserFollowing'))
+    console.log(loggedInUserFollowing)
   return (
     <div id='profile-header'>
         <span>{user.firstName} {user.lastName}</span>
