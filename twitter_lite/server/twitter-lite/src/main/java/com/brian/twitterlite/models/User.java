@@ -56,7 +56,7 @@ public class User implements Serializable {
     @Email(message="Email must be valid")
     private String email;
 
-    @Size(min=1, max=25)
+    @Size(min=1, max=69)
     private String location;
 
     @Size(min=1, max=99)

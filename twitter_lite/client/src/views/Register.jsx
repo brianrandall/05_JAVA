@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import arrow from '../components/img/arrow100.png'
-import { regexp } from 'linkifyjs'
 
 const Register = () => {
 
@@ -62,10 +61,11 @@ const Register = () => {
         }
     }
 
+    const emailregeX = new RegExp('^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$')
+
     const emailValidations = (e) => {
         setEmail(e.target.value)
-        //check input against email regex pattern
-        if(e.target.value < 5){
+        if (!emailregeX.test(e.target.value)) {
             setEmailError('Email must be a valid email address')
         }
         else {
@@ -74,11 +74,15 @@ const Register = () => {
         }
     }
 
+    const passregeX = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{6,}$')
+    
+
     const passwordValidations = (e) => {
         setPassword(e.target.value)
-        if(e.target.value.length < 2){
-            setPasswordError('Password must be at least 2 characters')
-        } else {
+        if (!passregeX.test(e.target.value)) {
+            setPasswordError('Password must contain at least one number, one uppercase, one special character, one lowercase letter, and be at least 6 characters long')
+        }
+        else {
             setPasswordError('')
             setPwx(true)
         }

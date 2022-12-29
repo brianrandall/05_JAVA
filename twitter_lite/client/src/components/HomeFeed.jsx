@@ -6,20 +6,22 @@ import { Link } from 'react-router-dom'
 import like from '../components/img/like-icon.png'
 import liked from '../components/img/liked-icon.png'
 
-const Feed = () => {
+const Feed = (props) => {
 
+    const {loggedIn} = props
   const id =  parseInt(sessionStorage.getItem('id'))
   const [post, setPost] = useState([])
   const [action, setAction] = useState(false)
   
   useEffect(() => {
+    console.log(sessionStorage.getItem('id'))
   axios.get(`http://localhost:8080/api/posts/all/${id}/following`)
   .then((res) => {
       setPost(res.data)
       console.log(post)
   })
   .catch((err) => console.log(err))
-  }, [id, action])
+  }, [id, action, loggedIn])
 
   const mention = {
     formatHref: {

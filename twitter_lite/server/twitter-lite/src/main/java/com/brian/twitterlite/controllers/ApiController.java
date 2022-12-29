@@ -54,7 +54,7 @@ public class ApiController {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/**").allowedOrigins("*");
             }
         };
     
@@ -263,7 +263,7 @@ public class ApiController {
         
         userService.updateUser(editUser);
     
-        return new ResponseEntity<>("good", HttpStatus.OK);
+        return new ResponseEntity<>("user info updated", HttpStatus.OK);
     }
 
     

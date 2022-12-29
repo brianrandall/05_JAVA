@@ -3,8 +3,8 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import arrow from '../components/img/arrow100.png'
 
-const NavBar = () => {
-
+const NavBar = (props) => {
+const {setLoggedIn} = props
 const [username, setUsername] = useState('')
 const [firstName, setFirstName] = useState('')
 const [id, setId] = useState('')
@@ -15,6 +15,8 @@ const logout = () => {
     //refresh the page
     window.location.href = '/'
 }
+
+
 useEffect(() => {
 axios.get(`http://localhost:8080/api/users/email/${sessionStorage.getItem('loggedIn')}`)
     .then((res) => {
@@ -22,12 +24,13 @@ axios.get(`http://localhost:8080/api/users/email/${sessionStorage.getItem('logge
         setUsername(res.data.username)
         setFirstName(res.data.firstName)
         setId(res.data.id)
+        setLoggedIn(prev => !prev)
         sessionStorage.setItem('id', res.data.id)
         sessionStorage.setItem('loggedInUsername', res.data.username)
-        sessionStorage.setItem('favorites', (res.data.favorited_posts))      
+        sessionStorage.setItem('favorites', (res.data.favorited_posts))    
     })
     .catch((err) => console.log(err))
-}, [sessionStorage.getItem('loggedIn')])
+}, [sessionStorage.getItem('loggedIn') ])
 
 console.log(sessionStorage.getItem('favorites'))
 console.log(sessionStorage.getItem('loggedInUserFollowing'))

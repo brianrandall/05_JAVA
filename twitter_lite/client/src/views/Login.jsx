@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import arrow from '../components/img/arrow100.png'
 
 const Login = () => {
@@ -10,6 +11,8 @@ const Login = () => {
         email,
         password
     }
+
+    const nav = useNavigate()
 
     const loginUser = (e) => {
         e.preventDefault()
@@ -25,7 +28,7 @@ const Login = () => {
             if (response.status === 200) {
                 console.log('login successful')
                 sessionStorage.setItem('loggedIn', email)
-                window.location.href = '/home'
+                nav('/home')
                 
             }
             else {
